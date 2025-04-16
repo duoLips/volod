@@ -1,4 +1,4 @@
-const db = require('../db');
+const db = require('../models/db');
 const { sendOTPEmail } = require('../utils/mailer');
 
 const MAX_EMAIL_ATTEMPTS = 3;
@@ -12,7 +12,7 @@ async function hasEmailExceededAttempts(email) {
     return parseInt(rows[0].count) >= MAX_EMAIL_ATTEMPTS;
 }
 
-async function generateOTP(email) {
+async function generateOTP(email, subject) {
     const code = Math.floor(100000 + Math.random() * 900000);
     const createdAt = new Date();
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
@@ -24,7 +24,7 @@ async function generateOTP(email) {
     VALUES ($1, $2, $3, $4, true)
   `, [code, email, createdAt, expiresAt]);
 
-    await sendOTPEmail(email, code);
+    await sendOTPEmail(email, code, subject);
 }
 
 async function validateOTP(email, code) {

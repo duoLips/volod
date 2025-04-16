@@ -1,32 +1,45 @@
+// services/user.service.js
 const db = require('../models/db');
-
-async function createUser({ firstName, lastName, username, email, passhash, roleId, address }) {
-    const result = await db.query(
-        `INSERT INTO users (first_name, last_name, username, email, passhash, role_id, address, created_at)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING id`,
-        [firstName, lastName, username, email, passhash, roleId, address]
-    );
-    return result.rows[0];
-}
-
-async function userExistsByEmail(email) {
-    const result = await db.query(
-        `SELECT id FROM users WHERE email = $1`,
-        [email]
-    );
-    return result.rowCount > 0;
-}
-
-async function userExistsByUsername(username) {
-    const result = await db.query(
-        `SELECT id FROM users WHERE username = $1`,
+const bcrypt = require('bcrypt');
+const USER = 2;
+async function usernameExists(username) {
+    const { rows } = await db.query(
+        'SELECT 1 FROM users WHERE username = $1 LIMIT 1',
         [username]
     );
-    return result.rowCount > 0;
+    return rows.length > 0;
+}
+
+async function emailExists(email) {
+    const { rows } = await db.query(
+        'SELECT 1 FROM users WHERE email = $1 LIMIT 1',
+        [email]
+    );
+    return rows.length > 0;
+}
+
+async function createUser({
+                              firstName,
+                              lastName,
+                              username,
+                              email,
+                              password,
+                              address = null
+                          }) {
+    const passhash = await bcrypt.hash(String(password), 12);
+
+    const { rows } = await db.query(
+        `INSERT INTO users
+     (first_name, last_name, username, passhash, email, role_id, address, created_at)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,NOW())
+     RETURNING id, first_name AS "firstName", last_name AS "lastName", username, email`,
+        [firstName, lastName, username, passhash, email, USER, address]
+    );
+    return rows[0];
 }
 
 module.exports = {
-    createUser,
-    userExistsByEmail,
-    userExistsByUsername,
+    usernameExists,
+    emailExists,
+    createUser
 };

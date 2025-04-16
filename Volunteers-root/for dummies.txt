@@ -1,0 +1,10 @@
+mac:
+    cd ~/Desktop/volod/Volunteers-root/backend
+    node server.js
+
+reg flow:
+    1. `GET /api/auth/available/:username` on username field debounce
+    2. `POST /api/otp/new``{ email, subject:"registration" }` on verify email btn
+    3. `POST /api/otp/verify`{ email, code }` on code field debounce *add verifications for field
+    4. `POST /api/auth/register`
+    5. **Client receives`201 Created`user is authenticated immediately.
