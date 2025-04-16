@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="" />
+    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/auth.controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/otp.controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middlewares/rateLimit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/auth.routes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/otp.routes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/user.routes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/utils/mailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utils/mailer.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,6 +19,12 @@
   <component name="ComposerSettings">
     <execution />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
   <component name="ProjectId" id="2vkAlintZpT7LLcZOEmHpoX7Wy8" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -20,9 +35,19 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/margo/Desktop/ONTU diplom/Volunteers-root/backend"
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/margosheremet/Desktop/volod/Volunteers-root",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-php-predefined-ba97393d7c68-6f8e3395a2b4-com.jetbrains.php.sharedIndexes-PS-233.15619.9" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -33,6 +58,7 @@
       <updated>1744678850329</updated>
       <workItem from="1744678851307" duration="484000" />
       <workItem from="1744679367916" duration="123000" />
+      <workItem from="1744816942772" duration="79000" />
     </task>
     <servers />
   </component>
