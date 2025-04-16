@@ -2,7 +2,7 @@ const { validateOTP } = require('../services/otp.service');
 const { createUser, userExistsByEmail, userExistsByUsername } = require('../services/user.service');
 const bcrypt = require('bcrypt');
 const { getOTPByEmail } = require('../services/otp.service'); // add this
-
+console.log("aya")
 async function verifyEmail(req, res, next) {
     const { email, code } = req.body;
     try {
