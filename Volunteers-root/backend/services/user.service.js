@@ -38,8 +38,19 @@ async function createUser({
     return rows[0];
 }
 
+async function findByIdentifier(identifier) {
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+    const { rows } = await db.query(
+        `SELECT * FROM users WHERE ${isEmail ? 'email' : 'username'} = $1 LIMIT 1`,
+        [identifier]
+    );
+    return rows[0] || null;
+}
+
 module.exports = {
     usernameExists,
     emailExists,
-    createUser
+    createUser,
+    findByIdentifier        // ← export
 };
+

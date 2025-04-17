@@ -4,22 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="mac statr">
-      <change afterPath="$PROJECT_DIR$/backend/controllers/auth.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/controllers/otp.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/controllers/user.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/auth.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/otp.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/for dummies.txt" afterDir="false" />
+    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="otp + register">
+      <change afterPath="$PROJECT_DIR$/backend/utils/helpers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/otp.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/otp.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/auth.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/auth.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/auth.routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/user.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/utils/mailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utils/mailer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/utils/otpCleanup.job.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utils/otpCleanup.job.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +85,7 @@
       <workItem from="1744678851307" duration="484000" />
       <workItem from="1744679367916" duration="123000" />
       <workItem from="1744816942772" duration="1569000" />
-      <workItem from="1744823500159" duration="6679000" />
+      <workItem from="1744823500159" duration="10168000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />
@@ -104,7 +95,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744817746532</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="otp + register">
+      <option name="closed" value="true" />
+      <created>1744836320091</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1744836320091</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -112,6 +111,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="mac statr" />
-    <option name="LAST_COMMIT_MESSAGE" value="mac statr" />
+    <MESSAGE value="otp + register" />
+    <option name="LAST_COMMIT_MESSAGE" value="otp + register" />
   </component>
 </project>
