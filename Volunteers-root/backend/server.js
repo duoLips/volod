@@ -4,7 +4,10 @@ const cors = require('cors');
 const session = require('express-session');
 const otpRoutes = require('./routes/otp.routes');
 const authRoutes = require('./routes/auth.routes');
+const monobankRoutes = require('./routes/monobank.routes')
 const { scheduleOTPCleanup } = require('./utils/otpCleanup.job');
+const { scheduleJarSync } = require('./utils/jarSync.job');
+
 
 const app = express();
 
@@ -30,12 +33,15 @@ app.use(session({
 
 app.use('/api/otp', otpRoutes);
 app.use('/api/auth', authRoutes)
+app.use('/api/banka', monobankRoutes);
 
 app.get('/api/test', (req, res) => {
     res.send('API is working');
 });
 
 scheduleOTPCleanup();
+scheduleJarSync();
+
 
 const PORT = process.env.SERVER_PORT;
 app.listen(PORT, () => {

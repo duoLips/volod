@@ -56,8 +56,8 @@ async function loginPassword(req, res, next) {
         const ok = await bcrypt.compare(String(password), user.passhash);
         if (!ok) return res.status(400).json({ message: 'Invalid credentials' });
 
-        req.session.user = { id: user.id, username: user.username };
-        res.json({ message: 'Logged in', user: { id: user.id, username: user.username } });
+        req.session.user = { id: user.id, username: user.username, role: user.role_id };
+        res.json({ message: 'Logged in', user: { id: user.id, username: user.username, role: user.role_id} });
     } catch (err) { next(err); }
 }
 
@@ -81,8 +81,8 @@ async function verifyLoginOTP(req, res, next) {
         const result = await validateOTP(user.email, code);
         if (!result.valid) return res.status(400).json({ message: result.reason });
 
-        req.session.user = { id: user.id, username: user.username };
-        res.json({ message: 'Logged in', user: { id: user.id, username: user.username } });
+        req.session.user = { id: user.id, username: user.username, role: user.role_id };
+        res.json({ message: 'Logged in', user: { id: user.id, username: user.username, role: user.role_id } });
     } catch (err) { next(err); }
 }
 

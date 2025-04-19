@@ -4,13 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="otp + register">
-      <change afterPath="$PROJECT_DIR$/backend/utils/helpers.js" afterDir="false" />
+    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="auth routes(logins, session, logout)">
+      <change afterPath="$PROJECT_DIR$/backend/controllers/monobank.controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/middleware/auth.middleware.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/monobank.routes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/monobank.service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/utils/jarSync.job.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/user.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/auth.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/auth.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/user.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/utils/otpCleanup.job.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utils/otpCleanup.job.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +91,7 @@
       <workItem from="1744678851307" duration="484000" />
       <workItem from="1744679367916" duration="123000" />
       <workItem from="1744816942772" duration="1569000" />
-      <workItem from="1744823500159" duration="10168000" />
+      <workItem from="1744823500159" duration="13436000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />
@@ -103,7 +109,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744836320091</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="auth routes(logins, session, logout)">
+      <option name="closed" value="true" />
+      <created>1744860788658</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1744860788658</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -112,6 +126,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="mac statr" />
     <MESSAGE value="otp + register" />
-    <option name="LAST_COMMIT_MESSAGE" value="otp + register" />
+    <MESSAGE value="auth routes(logins, session, logout)" />
+    <option name="LAST_COMMIT_MESSAGE" value="auth routes(logins, session, logout)" />
   </component>
 </project>
