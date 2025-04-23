@@ -1,8 +1,3 @@
-// utils/helpers.js
-// ──────────────────────────────────────────────────────────────
-// All input‑validation helpers live here so every controller
-// applies the exact same rules.
-
 const USERNAME_REGEX = /^[A-Za-z0-9._]{5,20}$/;            // 5‑20 allowed chars
 const EMAIL_REGEX    = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;        // simple RFC‑style check
 const MAX_PASSWORD   = 100;

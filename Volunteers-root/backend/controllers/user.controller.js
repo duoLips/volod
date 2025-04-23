@@ -1,5 +1,5 @@
 const { usernameExists } = require('../services/user.service');
-const { isValidUsername } = require('../utils/helpers');
+const { isValidUsername } = require('../utils/validation.helper');
 
 async function checkUsername(req, res, next) {
     const { username } = req.params;

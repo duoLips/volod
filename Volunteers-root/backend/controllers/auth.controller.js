@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const { generateOTP, validateOTP } = require('../services/otp.service')
 const {emailExists, createUser, findByIdentifier } = require('../services/user.service');
-const {isValidUsername, isValidEmail, isValidPassword} = require('../utils/helpers');
+const {isValidUsername, isValidEmail, isValidPassword} = require('../utils/validation.helper');
 async function register(req, res, next) {
     const {
         firstName,
@@ -38,7 +38,7 @@ async function register(req, res, next) {
             address
         });
 
-        req.session.user = { id: user.id, username: user.username }; // instant login
+        req.session.user = { id: user.id, username: user.username, role: user.role_id }; // instant login
         res.status(201).json({ user });
     } catch (err) {
         next(err);

@@ -4,7 +4,9 @@ const cors = require('cors');
 const session = require('express-session');
 const otpRoutes = require('./routes/otp.routes');
 const authRoutes = require('./routes/auth.routes');
-const monobankRoutes = require('./routes/monobank.routes')
+const monobankRoutes = require('./routes/monobank.routes');
+const mediaRoutes = require('./routes/media.routes');
+const newsRoutes = require('./routes/news.routes')
 const { scheduleOTPCleanup } = require('./utils/otpCleanup.job');
 const { scheduleJarSync } = require('./utils/jarSync.job');
 
@@ -34,6 +36,9 @@ app.use(session({
 app.use('/api/otp', otpRoutes);
 app.use('/api/auth', authRoutes)
 app.use('/api/banka', monobankRoutes);
+app.use('/api/media', mediaRoutes);
+app.use('/api/news', newsRoutes);
+
 
 app.get('/api/test', (req, res) => {
     res.send('API is working');
