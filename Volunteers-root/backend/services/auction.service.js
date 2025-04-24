@@ -1,0 +1,57 @@
+const db = require('../models/db');
+
+async function createAuction({ title, body, prize, ends_at, user_id, jar_id }) {
+    const { rows } = await db.query(
+        `INSERT INTO auctions (title, body, prize, ends_at, status, created_at, winner_id, user_id, jar_id)
+         VALUES ($1, $2, $3, $4, true, NOW(), NULL, $5, $6)
+         RETURNING id`,
+        [title, body, prize, ends_at, user_id, jar_id]
+    );
+    return rows[0].id;
+}
+
+async function getAllAuctions({ limit = 10, page = 1 }) {
+    const offset = (page - 1) * limit;
+
+    const dataQuery = await db.query(
+        `SELECT a.*, m.img_path, m.alt_text, j.title AS jar_title
+         FROM auctions a
+         LEFT JOIN media m ON m.entity_id = a.id AND m.entity_type = 'auction' AND m.type = 'cover'
+         LEFT JOIN jars j ON j.id = a.jar_id
+         WHERE a.deleted_at IS NULL
+         ORDER BY a.created_at DESC
+         LIMIT $1 OFFSET $2`,
+        [limit, offset]
+    );
+
+    const countQuery = await db.query(
+        `SELECT COUNT(*) FROM auctions WHERE deleted_at IS NULL`
+    );
+
+    const total = parseInt(countQuery.rows[0].count);
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+        data: dataQuery.rows,
+        pagination: { total, page, limit, totalPages }
+    };
+}
+
+async function getAuctionId(id) {
+    const { rows } = await db.query(
+        `SELECT a.*, m.img_path, m.alt_text, j.title AS jar_title
+         FROM auctions a
+         LEFT JOIN media m ON m.entity_id = a.id AND m.entity_type = 'auction' AND m.type = 'cover'
+         LEFT JOIN jars j ON j.id = a.jar_id
+         WHERE a.id = $1 AND a.deleted_at IS NULL`,
+        [id]
+    );
+    return rows[0] || null;
+}
+
+async function deleteAuction(id) {
+    await db.query(`UPDATE auctions SET deleted_at = NOW() WHERE id = $1`, [id]);
+}
+
+
+module.exports = { createAuction, getAllAuctions, getAuctionId,deleteAuction };

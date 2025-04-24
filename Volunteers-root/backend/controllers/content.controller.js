@@ -1,8 +1,10 @@
 const { createNews, deleteNews, getAllNews } = require('../services/news.service');
+const { createAuction, getAllAuctions,  getAuctionId, deleteAuction } = require('../services/auction.service');
+const  {attachMedia} = require('../services/media.service')
 const db = require('../models/db');
 
 async function createNewsEntry(req, res, next) {
-    const { title, body, img_url } = req.body;
+    const { title, body, img_url, alt_text } = req.body;
     const userId = req.session?.user?.id;
 
     if (!userId) return res.status(401).json({ message: 'Unauthorized' });
@@ -12,11 +14,13 @@ async function createNewsEntry(req, res, next) {
         const newsId = await createNews({ title, body, userId });
 
         if (img_url) {
-            await db.query(
-                `INSERT INTO media (entity_id, entity_type, img_path)
-                 VALUES ($1, $2, $3)`,
-                [newsId, 'news', img_url]
-            );
+            await attachMedia({
+                entity_id: newsId,
+                entity_type: 'news',
+                img_path: img_url,
+                type: 'cover',
+                alt_text
+            });
         }
 
         res.status(201).json({ message: 'News created', id: newsId });
@@ -24,10 +28,14 @@ async function createNewsEntry(req, res, next) {
         next(err);
     }
 }
+
 async function listNews(req, res, next) {
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+
     try {
-        const news = await getAllNews();
-        res.json(news);
+        const result = await getAllNews({ limit, page });
+        res.json(result);
     } catch (err) {
         next(err);
     }
@@ -40,8 +48,100 @@ async function softDeleteNews(req, res, next) {
     if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
     try {
-        await deleteNews(id, userId);
+        await deleteNews(id);
         res.json({ message: 'News deleted (soft)' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function getNewsById(req, res, next) {
+    const { id } = req.params;
+
+    try {
+        const { rows } = await db.query(
+            `SELECT n.*, m.img_path, m.alt_text
+             FROM news n
+             LEFT JOIN media m ON m.entity_id = n.id AND m.entity_type = 'news' AND m.type = 'cover'
+             WHERE n.id = $1 AND n.deleted_at IS NULL`,
+            [id]
+        );
+
+        if (!rows.length) return res.status(404).json({ message: 'News not found' });
+
+        res.json(rows[0]);
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function createAuctionEntry(req, res, next) {
+    const { title, body, prize, ends_at, img_url, alt_text, jar_id } = req.body;
+    const userId = req.session?.user?.id;
+
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+    if (!title || !body || !prize || !ends_at || !jar_id)
+        return res.status(400).json({ message: 'Missing required fields' });
+
+    const endsAtDate = new Date(ends_at);
+    if (isNaN(endsAtDate) || endsAtDate <= new Date()) {
+        return res.status(400).json({ message: 'End date must be in the future' });
+    }
+
+    try {
+        const auctionId = await createAuction({
+            title,
+            body,
+            prize,
+            ends_at: endsAtDate,
+            user_id: userId,
+            jar_id
+        });
+
+        if (img_url) {
+            await attachMedia({
+                entity_id: auctionId,
+                entity_type: 'auction',
+                img_path: img_url,
+                type: 'cover',
+                alt_text
+            });
+        }
+
+        res.status(201).json({ message: 'Auction created', id: auctionId });
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function listAuctions(req, res, next) {
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+
+    try {
+        const result = await getAllAuctions({ limit, page });
+        res.json(result);
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function getAuctionById(req, res, next) {
+    try {
+        const auction = await getAuctionId(req.params.id);
+        if (!auction) return res.status(404).json({ message: 'Auction not found' });
+        res.json(auction);
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function softDeleteAuction(req, res, next) {
+    const userId = req.session?.user?.id;
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+    try {
+        await deleteAuction(req.params.id);
+        res.json({ message: 'Auction deleted (soft)' });
     } catch (err) {
         next(err);
     }
@@ -50,5 +150,10 @@ async function softDeleteNews(req, res, next) {
 module.exports = {
     createNewsEntry,
     listNews,
-    softDeleteNews
+    softDeleteNews,
+    getNewsById,
+    createAuctionEntry,
+    listAuctions,
+    getAuctionById,
+    softDeleteAuction
 };

@@ -7,8 +7,11 @@ const authRoutes = require('./routes/auth.routes');
 const monobankRoutes = require('./routes/monobank.routes');
 const mediaRoutes = require('./routes/media.routes');
 const newsRoutes = require('./routes/news.routes')
+const auctionRoutes = require('./routes/auction.routes')
 const { scheduleOTPCleanup } = require('./utils/otpCleanup.job');
 const { scheduleJarSync } = require('./utils/jarSync.job');
+const { scheduleAuctionAutoClose } = require('./utils/auctionClose.job');
+
 
 
 const app = express();
@@ -38,6 +41,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/banka', monobankRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/news', newsRoutes);
+app.use('/api/auctions', auctionRoutes);
 
 
 app.get('/api/test', (req, res) => {
@@ -46,6 +50,8 @@ app.get('/api/test', (req, res) => {
 
 scheduleOTPCleanup();
 scheduleJarSync();
+scheduleAuctionAutoClose();
+
 
 
 const PORT = process.env.SERVER_PORT;
