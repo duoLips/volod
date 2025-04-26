@@ -8,6 +8,9 @@ const monobankRoutes = require('./routes/monobank.routes');
 const mediaRoutes = require('./routes/media.routes');
 const newsRoutes = require('./routes/news.routes')
 const auctionRoutes = require('./routes/auction.routes')
+const reportRoutes  = require('./routes/reports.routes')
+const userRoutes = require('./routes/user.routes');
+
 const { scheduleOTPCleanup } = require('./utils/otpCleanup.job');
 const { scheduleJarSync } = require('./utils/jarSync.job');
 const { scheduleAuctionAutoClose } = require('./utils/auctionClose.job');
@@ -42,6 +45,9 @@ app.use('/api/banka', monobankRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/auctions', auctionRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/users', userRoutes);
+
 
 
 app.get('/api/test', (req, res) => {

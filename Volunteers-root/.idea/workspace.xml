@@ -4,18 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="media upload to cloudinary; started news. TODO: pagination consideration for articles; use isAdmin for soft deletion;">
-      <change afterPath="$PROJECT_DIR$/backend/routes/auction.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/auction.service.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/media.service.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/utils/auctionClose.job.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3f9ab253-8d59-4274-8ca3-5882b0f499d4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/3f9ab253-8d59-4274-8ca3-5882b0f499d4.xml" afterDir="false" />
+    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="basic news and auctions backend; TODO reports, auctions review what data is fetched(jars in particl)">
+      <change afterPath="$PROJECT_DIR$/backend/routes/reports.routes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/routes/user.routes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/services/reports.service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/auth.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/controllers/content.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/content.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/media.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/media.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/news.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/news.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middleware/rateLimit.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middleware/rateLimit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/auth.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/auth.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/otp.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/otp.routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/news.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/news.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/user.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/utils/mailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utils/mailer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +94,7 @@
       <workItem from="1744679367916" duration="123000" />
       <workItem from="1744816942772" duration="1569000" />
       <workItem from="1744823500159" duration="18353000" />
-      <workItem from="1745449065276" duration="4853000" />
+      <workItem from="1745449065276" duration="17832000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />
@@ -133,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745372116633</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="basic news and auctions backend; TODO reports, auctions review what data is fetched(jars in particl)">
+      <option name="closed" value="true" />
+      <created>1745460313637</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745460313637</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +156,7 @@
     <MESSAGE value="auth routes(logins, session, logout)" />
     <MESSAGE value="changed otp cleanup to every hour; mono banka fetch+manual refresh+db  store" />
     <MESSAGE value="media upload to cloudinary; started news. TODO: pagination consideration for articles; use isAdmin for soft deletion;" />
-    <option name="LAST_COMMIT_MESSAGE" value="media upload to cloudinary; started news. TODO: pagination consideration for articles; use isAdmin for soft deletion;" />
+    <MESSAGE value="basic news and auctions backend; TODO reports, auctions review what data is fetched(jars in particl)" />
+    <option name="LAST_COMMIT_MESSAGE" value="basic news and auctions backend; TODO reports, auctions review what data is fetched(jars in particl)" />
   </component>
 </project>

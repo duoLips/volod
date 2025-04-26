@@ -1,5 +1,7 @@
 const { createNews, deleteNews, getAllNews } = require('../services/news.service');
 const { createAuction, getAllAuctions,  getAuctionId, deleteAuction } = require('../services/auction.service');
+const { createReport, getAllReports, getReportById, deleteReport } = require('../services/reports.service');
+
 const  {attachMedia} = require('../services/media.service')
 const db = require('../models/db');
 
@@ -147,6 +149,71 @@ async function softDeleteAuction(req, res, next) {
     }
 }
 
+async function createReportEntry(req, res, next) {
+    const { title, body, auction_id, img_url, alt_text } = req.body;
+    const userId = req.session?.user?.id;
+
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+    if (!title || !body)
+        return res.status(400).json({ message: 'Missing title or body' });
+
+    try {
+        const reportId = await createReport({
+            title,
+            body,
+            userId,
+            auctionId: auction_id || null
+        });
+
+        if (img_url) {
+            await attachMedia({
+                entity_id: reportId,
+                entity_type: 'report',
+                img_path: img_url,
+                type: 'cover',
+                alt_text
+            });
+        }
+
+        res.status(201).json({ message: 'Report created', id: reportId });
+    } catch (err) {
+        next(err);
+    }
+}
+async function listReports(req, res, next) {
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+
+    try {
+        const result = await getAllReports({ limit, page });
+        res.json(result);
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function getReportEntry(req, res, next) {
+    try {
+        const report = await getReportById(req.params.id);
+        if (!report) return res.status(404).json({ message: 'Report not found' });
+        res.json(report);
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function softDeleteReport(req, res, next) {
+    const userId = req.session?.user?.id;
+    if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+
+    try {
+        await deleteReport(req.params.id);
+        res.json({ message: 'Report deleted (soft)' });
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     createNewsEntry,
     listNews,
@@ -155,5 +222,9 @@ module.exports = {
     createAuctionEntry,
     listAuctions,
     getAuctionById,
-    softDeleteAuction
+    softDeleteAuction,
+    createReportEntry,
+    listReports,
+    getReportEntry,
+    softDeleteReport
 };

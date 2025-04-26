@@ -1,8 +1,10 @@
-
+const db = require('../models/db');
 const bcrypt = require('bcrypt');
 const { generateOTP, validateOTP } = require('../services/otp.service')
-const {emailExists, createUser, findByIdentifier } = require('../services/user.service');
+const {emailExists, createUser, findByIdentifier, resetUserPasswordByEmail } = require('../services/user.service');
 const {isValidUsername, isValidEmail, isValidPassword} = require('../utils/validation.helper');
+
+const loginFailures = {};
 async function register(req, res, next) {
     const {
         firstName,
@@ -45,27 +47,52 @@ async function register(req, res, next) {
     }
 }
 async function loginPassword(req, res, next) {
-    const { identifier, password } = req.body;          // one field for user / e‑mail
+    const { identifier, password } = req.body;
+
     try {
         const user = await findByIdentifier(identifier);
         if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-        if (!isValidPassword(password))
-            return res.status(400).json({ message: 'Invalid password format' });
+        if (user.banned_at)
+            return res.status(403).json({ message: 'Account is banned.' });
+
+        if (user.deleted_at)
+            return res.status(403).json({ message: 'Account is deleted.' });
 
         const ok = await bcrypt.compare(String(password), user.passhash);
-        if (!ok) return res.status(400).json({ message: 'Invalid credentials' });
+        if (!ok) {
+            loginFailures[identifier] = (loginFailures[identifier] || 0) + 1;
+
+            if (loginFailures[identifier] >= MAX_LOGIN_ATTEMPTS) {
+                await banUser(user.id); // Use your existing service
+                return res.status(403).json({ message: 'Too many failed attempts. Account locked.' });
+            }
+
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+
+        delete loginFailures[identifier];
 
         req.session.user = { id: user.id, username: user.username, role: user.role_id };
-        res.json({ message: 'Logged in', user: { id: user.id, username: user.username, role: user.role_id} });
-    } catch (err) { next(err); }
+        res.json({ message: 'Logged in', user: { id: user.id, username: user.username, role: user.role_id } });
+    } catch (err) {
+        next(err);
+    }
 }
+
 
 async function requestLoginOTP(req, res, next) {
     const { identifier } = req.body;
     try {
         const user = await findByIdentifier(identifier);
         if (!user) return res.status(400).json({ message: 'User not found' });
+
+        if (user.deleted_at) {
+            return res.status(403).json({ message: 'Account is deleted. Please reactivate.' });
+        }
+
+        if (user.banned_at)
+            return res.status(403).json({ message: 'Account is banned' });
 
         await generateOTP(user.email, 'login');
         res.json({ message: 'OTP sent' });
@@ -77,6 +104,7 @@ async function verifyLoginOTP(req, res, next) {
     try {
         const user = await findByIdentifier(identifier);
         if (!user) return res.status(400).json({ message: 'User not found' });
+
 
         const result = await validateOTP(user.email, code);
         if (!result.valid) return res.status(400).json({ message: result.reason });
@@ -106,11 +134,94 @@ async function logout (req,res) {
     });
 }
 
+async function requestRestoreOTP(req, res, next) {
+    const { email } = req.body;
+
+    try {
+        const user = await findByIdentifier(email);
+        if (!user) return res.status(400).json({ message: 'User not found' });
+
+        if (!user.deleted_at)
+            return res.status(400).json({ message: 'Account is already active.' });
+
+        await generateOTP(email, 'restore-account');
+        res.json({ message: 'OTP sent for account restoration.' });
+    } catch (err) {
+        next(err);
+    }
+}
+async function restoreProfile(req, res, next) {
+    const { email, code } = req.body;
+
+    try {
+        const result = await validateOTP(email, code);
+        if (!result.valid) return res.status(400).json({ message: result.reason });
+
+        const { rows } = await db.query(
+            `UPDATE users SET deleted_at = NULL WHERE email = $1
+             RETURNING id, username, role_id`,
+            [email]
+        );
+
+        if (!rows.length) return res.status(400).json({ message: 'Account not found' });
+
+        const user = rows[0];
+
+        req.session.user = {
+            id: user.id,
+            username: user.username,
+            role: user.role_id
+        };
+
+        res.json({ message: 'Account restored and logged in', user });
+    } catch (err) {
+        next(err);
+    }
+}
+async function requestPasswordReset(req, res, next) {
+    const { email } = req.body;
+
+    if (!isValidEmail(email))
+        return res.status(400).json({ message: 'Invalid email format' });
+
+    try {
+        const user = await findByIdentifier(email);
+        if (!user) return res.status(400).json({ message: 'Email not found' });
+
+        await generateOTP(email, 'reset-password');
+        res.json({ message: 'OTP sent to reset password' });
+    } catch (err) {
+        next(err);
+    }
+}
+async function resetPassword(req, res, next) {
+    const { email, code, newPassword } = req.body;
+
+    if (!isValidEmail(email))
+        return res.status(400).json({ message: 'Invalid email format' });
+
+    if (!isValidPassword(newPassword))
+        return res.status(400).json({ message: 'Invalid new password format' });
+
+    try {
+        const otpResult = await validateOTP(email, code);
+        if (!otpResult.valid) return res.status(400).json({ message: otpResult.reason });
+
+        await resetUserPasswordByEmail(email, newPassword);
+        res.json({ message: 'Password reset successfully' });
+    } catch (err) {
+        next(err);
+    }
+}
 module.exports = {
     register,
     loginPassword,
     requestLoginOTP,
     verifyLoginOTP,
     sessionInfo,
-    logout
+    logout,
+    requestRestoreOTP,
+    restoreProfile,
+    requestPasswordReset,
+    resetPassword
 };

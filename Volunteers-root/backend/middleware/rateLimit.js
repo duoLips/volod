@@ -1,9 +1,12 @@
 const rateLimit = require('express-rate-limit');
 
-const otpRateLimiter = rateLimit({
-    windowMs: 60 * 60 * 1000,
-    max: 5,
-    message: 'Too many OTP requests from this IP. Try again in an hour.'
-});
-
-module.exports = { otpRateLimiter };
+function createRateLimiter({ windowMs, max, message }) {
+    return rateLimit({
+        windowMs,
+        max,
+        message,
+        standardHeaders: true,  // Adds RateLimit-* headers to responses
+        legacyHeaders: false    // Disables X-RateLimit-* headers (old format)
+    });
+}
+module.exports = { createRateLimiter };
