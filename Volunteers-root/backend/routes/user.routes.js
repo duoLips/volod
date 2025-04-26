@@ -15,7 +15,7 @@ const { getCurrentUser,
     confirmChangeEmail
     } = require('../controllers/user.controller');
 const upload = multer();
-const { createRateLimiter } = require('../utils/rateLimit');
+const { createRateLimiter } = require('../middleware/rateLimit');
 
 const avatarChangeLimiter = createRateLimiter({
     windowMs: 60 * 60 * 1000, // 1 hour
