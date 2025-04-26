@@ -4,21 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="basic news and auctions backend; TODO reports, auctions review what data is fetched(jars in particl)">
-      <change afterPath="$PROJECT_DIR$/backend/routes/reports.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/user.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/reports.service.js" afterDir="false" />
+    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/content.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/content.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/user.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/middleware/rateLimit.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middleware/rateLimit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/auth.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/auth.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/otp.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/otp.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/user.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/utils/mailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utils/mailer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/user.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/user.routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +82,7 @@
       <workItem from="1744679367916" duration="123000" />
       <workItem from="1744816942772" duration="1569000" />
       <workItem from="1744823500159" duration="18353000" />
-      <workItem from="1745449065276" duration="17832000" />
+      <workItem from="1745449065276" duration="19048000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />
@@ -144,7 +132,31 @@
       <option name="project" value="LOCAL" />
       <updated>1745460313637</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="users(ban, acc delete, password and email change with otp verif, rate limiter rredone + acc lock)">
+      <option name="closed" value="true" />
+      <created>1745648601869</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745648601869</updated>
+    </task>
+    <task id="LOCAL-00008" summary=".">
+      <option name="closed" value="true" />
+      <created>1745649146136</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745649146136</updated>
+    </task>
+    <task id="LOCAL-00009" summary=".">
+      <option name="closed" value="true" />
+      <created>1745649180274</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1745649180274</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,6 +169,8 @@
     <MESSAGE value="changed otp cleanup to every hour; mono banka fetch+manual refresh+db  store" />
     <MESSAGE value="media upload to cloudinary; started news. TODO: pagination consideration for articles; use isAdmin for soft deletion;" />
     <MESSAGE value="basic news and auctions backend; TODO reports, auctions review what data is fetched(jars in particl)" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic news and auctions backend; TODO reports, auctions review what data is fetched(jars in particl)" />
+    <MESSAGE value="users(ban, acc delete, password and email change with otp verif, rate limiter rredone + acc lock)" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
 </project>
