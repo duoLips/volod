@@ -4,22 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="comments doe">
-      <change afterPath="$PROJECT_DIR$/backend/controllers/search.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/search.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/search.service.js" afterDir="false" />
+    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="gallery api, global/type search by keyword, contact form sent to my email">
+      <change afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/api/axios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/api/test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/controllers/content.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/content.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/media.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/media.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/otp.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/otp.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/media.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/media.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/otp.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/otp.routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/services/auction.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/auction.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/media.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/media.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/news.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/news.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/reports.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/reports.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/utils/mailer.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utils/mailer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/for dummies.txt" beforeDir="false" afterPath="$PROJECT_DIR$/for dummies.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +27,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="JSX File" />
       </list>
     </option>
   </component>
@@ -43,6 +38,9 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -95,7 +93,7 @@
       <workItem from="1744679367916" duration="123000" />
       <workItem from="1744816942772" duration="1569000" />
       <workItem from="1744823500159" duration="18353000" />
-      <workItem from="1745449065276" duration="33384000" />
+      <workItem from="1745449065276" duration="37333000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />
@@ -185,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746043123612</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="gallery api, global/type search by keyword, contact form sent to my email">
+      <option name="closed" value="true" />
+      <created>1746046826013</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1746046826013</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +207,7 @@
     <MESSAGE value="users(ban, acc delete, password and email change with otp verif, rate limiter rredone + acc lock)" />
     <MESSAGE value="." />
     <MESSAGE value="comments doe" />
-    <option name="LAST_COMMIT_MESSAGE" value="comments doe" />
+    <MESSAGE value="gallery api, global/type search by keyword, contact form sent to my email" />
+    <option name="LAST_COMMIT_MESSAGE" value="gallery api, global/type search by keyword, contact form sent to my email" />
   </component>
 </project>

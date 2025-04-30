@@ -187,14 +187,16 @@ async function listAuctions(req, res, next) {
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
     const search = req.query.q || '';
+    const status = req.query.status || 'all'; // open | closed | all
 
     try {
-        const result = await getAllAuctions({ limit, page, search });
+        const result = await getAllAuctions({ limit, page, search, status });
         res.json(result);
     } catch (err) {
         next(err);
     }
 }
+
 
 async function getAuctionById(req, res, next) {
     try {

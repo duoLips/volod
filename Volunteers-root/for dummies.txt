@@ -1,5 +1,7 @@
 mac:
-    cd ~/Desktop/volod/Volunteers-root/backend
+    cd ~/Desktop/volod/Volunteers-root/backend node server.js
+    cd ~/Desktop/volod/Volunteers-root/frontend npm run dev
+
     node server.js
 
 reg flow:
