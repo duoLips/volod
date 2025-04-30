@@ -81,4 +81,13 @@ async function sendOTPEmail(email, code, templateKey = 'registration') {
     });
 }
 
-module.exports = { sendOTPEmail };
+async function sendContactEmail(name, fromEmail, message) {
+    return transporter.sendMail({
+        from: `"${name}"`,
+        to: process.env.EMAIL_USER,
+        subject: 'New Contact Us Message',
+        text: `From: ${name} <${fromEmail}>\n\n${message}`
+    });
+}
+
+module.exports = { sendOTPEmail, sendContactEmail };

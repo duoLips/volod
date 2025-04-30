@@ -36,14 +36,16 @@ async function createNewsEntry(req, res, next) {
 async function listNews(req, res, next) {
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
+    const search = req.query.q || '';
 
     try {
-        const result = await getAllNews({ limit, page });
+        const result = await getAllNews({ limit, page, search });
         res.json(result);
     } catch (err) {
         next(err);
     }
 }
+
 
 async function softDeleteNews(req, res, next) {
     const { id } = req.params;
@@ -184,9 +186,10 @@ async function createAuctionEntry(req, res, next) {
 async function listAuctions(req, res, next) {
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
+    const search = req.query.q || '';
 
     try {
-        const result = await getAllAuctions({ limit, page });
+        const result = await getAllAuctions({ limit, page, search });
         res.json(result);
     } catch (err) {
         next(err);
@@ -315,9 +318,10 @@ async function createReportEntry(req, res, next) {
 async function listReports(req, res, next) {
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
+    const search = req.query.q || '';
 
     try {
-        const result = await getAllReports({ limit, page });
+        const result = await getAllReports({ limit, page, search });
         res.json(result);
     } catch (err) {
         next(err);

@@ -1,5 +1,5 @@
 const { uploadImageFromBuffer } = require('../utils/cloudinary.helper');
-
+const {listAllMedia} = require('../services/media.service')
 async function uploadImage(req, res, next) {
     try {
         if (!req.file) return res.status(400).json({ message: 'No file provided' });
@@ -12,4 +12,13 @@ async function uploadImage(req, res, next) {
     }
 }
 
-module.exports = { uploadImage };
+async function listGallery(req, res, next) {
+    try {
+        const media = await listAllMedia();
+        res.json(media);
+    } catch (err) {
+        next(err);
+    }
+}
+
+module.exports = { uploadImage, listGallery };

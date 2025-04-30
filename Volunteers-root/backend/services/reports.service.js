@@ -9,36 +9,33 @@ async function createReport({ title, body, userId, auctionId = null }) {
     );
     return rows[0].id;
 }
-async function getAllReports({ limit = 10, page = 1 }) {
+async function getAllReports({ limit = 10, page = 1, search = '' }) {
     const offset = (page - 1) * limit;
+    const keyword = `%${search.toLowerCase()}%`;
 
     const dataQuery = await db.query(
         `SELECT r.*, m.img_path, m.alt_text, a.id AS auction_id
          FROM reports r
-         LEFT JOIN media m 
-           ON m.entity_id = r.id 
-          AND m.entity_type = 'report' 
-          AND m.type = 'cover'
-         LEFT JOIN auctions a 
-           ON a.id = r.auction_id
-         WHERE r.deleted_at IS NULL
+         LEFT JOIN media m ON m.entity_id = r.id AND m.entity_type = 'report' AND m.type = 'cover'
+         LEFT JOIN auctions a ON a.id = r.auction_id
+         WHERE r.deleted_at IS NULL AND
+               (LOWER(r.title) LIKE $3 OR LOWER(r.body) LIKE $3)
          ORDER BY r.created_at DESC
          LIMIT $1 OFFSET $2`,
-        [limit, offset]
+        [limit, offset, keyword]
     );
 
     const countQuery = await db.query(
-        `SELECT COUNT(*) FROM reports WHERE deleted_at IS NULL`
+        `SELECT COUNT(*) FROM reports WHERE deleted_at IS NULL AND (LOWER(title) LIKE $1 OR LOWER(body) LIKE $1)`,
+        [keyword]
     );
 
     const total = parseInt(countQuery.rows[0].count);
     const totalPages = Math.ceil(total / limit);
 
-    return {
-        data: dataQuery.rows,
-        pagination: { total, page, limit, totalPages }
-    };
+    return { data: dataQuery.rows, pagination: { total, page, limit, totalPages } };
 }
+
 
 async function getReportById(id) {
     const { rows } = await db.query(

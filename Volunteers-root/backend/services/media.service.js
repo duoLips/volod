@@ -36,8 +36,18 @@ async function updateOrInsertMedia({ entity_id, entity_type, img_path, type = 'c
     }
 }
 
+async function listAllMedia() {
+    const { rows } = await db.query(`
+        SELECT id, entity_type, entity_id, img_path, alt_text
+        FROM media
+        ORDER BY id DESC
+    `);
+    return rows;
+}
+
 
 module.exports = {
     attachMedia,
-    updateOrInsertMedia
+    updateOrInsertMedia,
+    listAllMedia
 };

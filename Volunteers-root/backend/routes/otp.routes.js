@@ -1,5 +1,5 @@
 const express = require('express');
-const { requestOTP, verifyOTP } = require('../controllers/otp.controller');
+const { requestOTP, verifyOTP, contactForm } = require('../controllers/otp.controller');
 const { createRateLimiter } = require('../middleware/rateLimit');
 const router = express.Router();
 
@@ -11,5 +11,6 @@ const otpRequestLimiter = createRateLimiter({
 
 router.post('/new', otpRequestLimiter, requestOTP);
 router.post('/verify', verifyOTP);
+router.post('/', contactForm);
 
 module.exports = router;

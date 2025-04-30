@@ -1,4 +1,5 @@
 const { hasEmailExceededAttempts, generateOTP, validateOTP } = require('../services/otp.service');
+const { sendContactEmail } = require('../utils/mailer');
 
 async function requestOTP(req, res, next) {
     const { email, subject } = req.body;
@@ -27,4 +28,17 @@ async function verifyOTP(req, res, next) {
     }
 }
 
-module.exports = { requestOTP, verifyOTP };
+async function contactForm(req, res, next) {
+    const { name, email, message } = req.body;
+    if (!name || !email || !message)
+        return res.status(400).json({ message: 'All fields are required' });
+
+    try {
+        await sendContactEmail(name, email, message);
+        res.status(200).json({ message: 'Message sent successfully' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+module.exports = { requestOTP, verifyOTP, contactForm };

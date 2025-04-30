@@ -18,34 +18,32 @@ async function deleteNews(id) {
     );
 }
 
-async function getAllNews({ limit = 10, page = 1 }) {
+async function getAllNews({ limit = 10, page = 1, search = '' }) {
     const offset = (page - 1) * limit;
+    const keyword = `%${search.toLowerCase()}%`;
 
     const dataQuery = await db.query(
         `SELECT n.*, m.img_path, m.alt_text
          FROM news n
-         LEFT JOIN media m
-            ON m.entity_id = n.id
-           AND m.entity_type = 'news'
-           AND m.type = 'cover'
-         WHERE n.deleted_at IS NULL
+         LEFT JOIN media m ON m.entity_id = n.id AND m.entity_type = 'news' AND m.type = 'cover'
+         WHERE n.deleted_at IS NULL AND
+               (LOWER(n.title) LIKE $3 OR LOWER(n.body) LIKE $3)
          ORDER BY n.created_at DESC
          LIMIT $1 OFFSET $2`,
-        [limit, offset]
+        [limit, offset, keyword]
     );
 
     const countQuery = await db.query(
-        `SELECT COUNT(*) FROM news WHERE deleted_at IS NULL`
+        `SELECT COUNT(*) FROM news WHERE deleted_at IS NULL AND (LOWER(title) LIKE $1 OR LOWER(body) LIKE $1)`,
+        [keyword]
     );
 
     const total = parseInt(countQuery.rows[0].count);
     const totalPages = Math.ceil(total / limit);
 
-    return {
-        data: dataQuery.rows,
-        pagination: { total, page, limit, totalPages }
-    };
+    return { data: dataQuery.rows, pagination: { total, page, limit, totalPages } };
 }
+
 
 
 
