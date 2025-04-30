@@ -53,5 +53,19 @@ async function deleteAuction(id) {
     await db.query(`UPDATE auctions SET deleted_at = NOW() WHERE id = $1`, [id]);
 }
 
+async function assignAuctionWinner(auctionId, userId, label) {
+    if (userId) {
+        await db.query(
+            `UPDATE auctions SET winner_id = $1, winner_label = $2 status = 'closed' WHERE id = $3`,
+            [userId, label, auctionId]
+        );
+    } else {
+        await db.query(
+            `UPDATE auctions SET winner_id = NULL, winner_label = $1 status = 'closed' WHERE id = $2`,
+            [label, auctionId]
+        );
+    }
+}
 
-module.exports = { createAuction, getAllAuctions, getAuctionId,deleteAuction };
+
+module.exports = { createAuction, getAllAuctions, getAuctionId,deleteAuction, assignAuctionWinner };

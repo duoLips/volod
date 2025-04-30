@@ -12,7 +12,8 @@ const { getCurrentUser,
     adminDeleteUser,
     changePassword,
     requestChangeEmail,
-    confirmChangeEmail
+    confirmChangeEmail,
+    searchUsers
     } = require('../controllers/user.controller');
 const upload = multer();
 const { createRateLimiter } = require('../middleware/rateLimit');
@@ -40,6 +41,7 @@ router.delete('/me', deleteOwnProfile);
 router.delete('/:id', isAdmin, adminDeleteUser);
 router.post('/request-change-email',emailChangeLimiter,  requestChangeEmail);
 router.post('/confirm-change-email', emailChangeLimiter, confirmChangeEmail);
+router.get('/search', isAdmin, searchUsers);
 
 
 module.exports = router;

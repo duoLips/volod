@@ -1,5 +1,5 @@
 const { usernameExists, getUserById, updateUserProfile, getAllUsers, banUser, unbanUser,
-    softDeleteUser, changeUserPassword } = require('../services/user.service');
+    softDeleteUser, changeUserPassword, searchUsersAutocomplete } = require('../services/user.service');
 const { isValidUsername, isValidPassword, isValidEmail } = require('../utils/validation.helper');
 const {  uploadImageFromBuffer  } = require('../utils/cloudinary.helper')
 const db = require('../models/db');
@@ -196,6 +196,19 @@ async function confirmChangeEmail(req, res, next) {
     }
 }
 
+async function searchUsers(req, res, next) {
+    const { q } = req.query;
+    if (!q) return res.status(400).json({ message: 'Missing query' });
+
+    try {
+        const users = await searchUsersAutocomplete(q);
+        res.json({ users });
+    } catch (err) {
+        next(err);
+    }
+}
+
+
 module.exports = { checkUsername,
     getCurrentUser,
     updateAvatar,
@@ -208,5 +221,6 @@ module.exports = { checkUsername,
     adminDeleteUser,
     changePassword,
     requestChangeEmail,
-    confirmChangeEmail
+    confirmChangeEmail,
+    searchUsers
     };

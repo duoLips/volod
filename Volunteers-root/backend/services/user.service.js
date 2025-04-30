@@ -177,6 +177,28 @@ async function resetUserPasswordByEmail(email, newPassword) {
     await db.query(`UPDATE users SET passhash = $1 WHERE email = $2`, [newHash, email]);
 }
 
+async function searchUsersAutocomplete(query) {
+    const term = `%${query.toLowerCase()}%`;
+
+    const { rows } = await db.query(
+        `SELECT id, username, first_name AS "firstName", last_name AS "lastName", email
+         FROM users
+         WHERE deleted_at IS NULL
+           AND (
+                LOWER(username) LIKE $1
+                OR LOWER(email) LIKE $1
+                OR LOWER(first_name) LIKE $1
+                OR LOWER(last_name) LIKE $1
+           )
+         ORDER BY username
+         LIMIT 10`,
+        [term]
+    );
+
+    return rows;
+}
+
+
 module.exports = {
     usernameExists,
     emailExists,
@@ -189,5 +211,6 @@ module.exports = {
     unbanUser,
     softDeleteUser,
     changeUserPassword,
-    resetUserPasswordByEmail
+    resetUserPasswordByEmail,
+    searchUsersAutocomplete
 };

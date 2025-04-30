@@ -4,4 +4,8 @@ function isAdmin(req, res, next) {
     res.status(403).json({ message: 'Forbidden' });
 }
 
-module.exports = { isAdmin };
+function isAuthenticated(req, res, next) {
+    if (req.session?.user) return next();
+    res.status(403).json({ message: 'Authentication required' });
+}
+module.exports = { isAdmin, isAuthenticated};

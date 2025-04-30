@@ -1,8 +1,10 @@
 const { createNews, deleteNews, getAllNews } = require('../services/news.service');
-const { createAuction, getAllAuctions,  getAuctionId, deleteAuction } = require('../services/auction.service');
+const { createAuction, getAllAuctions,  getAuctionId, deleteAuction, assignAuctionWinner } = require('../services/auction.service');
 const { createReport, getAllReports, getReportById, deleteReport } = require('../services/reports.service');
+const  {attachMedia, updateOrInsertMedia} = require('../services/media.service')
+const { uploadImageFromBuffer } = require('../utils/cloudinary.helper');
 
-const  {attachMedia} = require('../services/media.service')
+
 const db = require('../models/db');
 
 async function createNewsEntry(req, res, next) {
@@ -72,6 +74,69 @@ async function getNewsById(req, res, next) {
         if (!rows.length) return res.status(404).json({ message: 'News not found' });
 
         res.json(rows[0]);
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function updateNewsEntry(req, res, next) {
+    const id = req.params.id;
+    const { title, body } = req.body;
+
+    if (!title || !body)
+        return res.status(400).json({ message: 'Title and body are required' });
+
+    try {
+        await db.query(
+            `UPDATE news
+             SET title = $1, body = $2, edited_at = NOW()
+             WHERE id = $3`,
+            [title, body, id]
+        );
+
+        res.json({ message: 'News updated.' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function updateNewsCover(req, res, next) {
+    const id = req.params.id;
+
+    try {
+        const result = await uploadImageFromBuffer(req.file.buffer);
+        const img_path = result.secure_url;
+
+        await updateOrInsertMedia({
+            entity_id: id,
+            entity_type: 'news',
+            img_path,
+            type: 'cover',
+            alt_text: req.body.alt_text
+        });
+
+        res.json({ message: 'Cover image updated (file).' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function updateNewsCoverFromUrl(req, res, next) {
+    const id = req.params.id;
+    const { img_path, alt_text } = req.body;
+
+    if (!img_path) return res.status(400).json({ message: 'Image URL required' });
+
+    try {
+        await updateOrInsertMedia({
+            entity_id: id,
+            entity_type: 'news',
+            img_path,
+            type: 'cover',
+            alt_text
+        });
+
+        res.json({ message: 'Cover image updated (URL).' });
     } catch (err) {
         next(err);
     }
@@ -149,6 +214,73 @@ async function softDeleteAuction(req, res, next) {
     }
 }
 
+async function updateAuctionEntry(req, res, next) {
+    const id = req.params.id;
+    const { title, body, prize, jar_id } = req.body;
+
+    if (!title || !body || !prize || !jar_id)
+        return res.status(400).json({ message: 'Missing required fields' });
+
+    try {
+        await db.query(
+            `UPDATE auctions
+             SET title = $1,
+                 body = $2,
+                 prize = $3,
+                 jar_id = $4,
+                 edited_at = NOW()
+             WHERE id = $5`,
+            [title, body, prize, jar_id, id]
+        );
+
+        res.json({ message: 'Auction updated.' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function updateAuctionCover(req, res, next) {
+    const id = req.params.id;
+
+    try {
+        const result = await uploadImageFromBuffer(req.file.buffer);
+        const img_path = result.secure_url;
+
+        await updateOrInsertMedia({
+            entity_id: id,
+            entity_type: 'auction',
+            img_path,
+            type: 'cover',
+            alt_text: req.body.alt_text
+        });
+
+        res.json({ message: 'Auction cover image updated (file).' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function updateAuctionCoverFromUrl(req, res, next) {
+    const id = req.params.id;
+    const { img_path, alt_text } = req.body;
+
+    if (!img_path) return res.status(400).json({ message: 'Image URL required' });
+
+    try {
+        await updateOrInsertMedia({
+            entity_id: id,
+            entity_type: 'auction',
+            img_path,
+            type: 'cover',
+            alt_text
+        });
+
+        res.json({ message: 'Auction cover image updated (URL).' });
+    } catch (err) {
+        next(err);
+    }
+}
+
 async function createReportEntry(req, res, next) {
     const { title, body, auction_id, img_url, alt_text } = req.body;
     const userId = req.session?.user?.id;
@@ -214,6 +346,85 @@ async function softDeleteReport(req, res, next) {
     }
 }
 
+
+async function assignAuctionWinnerEntry(req, res, next) {
+    const auctionId = req.params.id;
+    const { userId, label } = req.body;
+
+    if (!label || typeof label !== 'string')
+        return res.status(400).json({ message: 'Winner label is required.' });
+
+    try {
+        await assignAuctionWinner(auctionId, userId || null, label);
+        res.json({ message: 'Winner assigned successfully.' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function updateReportEntry(req, res, next) {
+    const id = req.params.id;
+    const { title, body } = req.body;
+
+    if (!title || !body) {
+        return res.status(400).json({ message: 'Title and body are required' });
+    }
+
+    try {
+        await db.query(
+            `UPDATE reports
+             SET title = $1, body = $2, edited_at = NOW()
+             WHERE id = $3`,
+            [title, body, id]
+        );
+
+        res.json({ message: 'Report updated.' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function updateReportCover(req, res, next) {
+    const id = req.params.id;
+    try {
+        const result = await uploadImageFromBuffer(req.file.buffer);
+        const img_path = result.secure_url;
+
+        await updateOrInsertMedia({
+            entity_id: id,
+            entity_type: 'report',
+            img_path,
+            type: 'cover',
+            alt_text: req.body.alt_text
+        });
+
+        res.json({ message: 'Cover image updated (file).' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+    async function updateReportCoverFromUrl(req, res, next) {
+        const id = req.params.id;
+        const { img_path, alt_text } = req.body;
+
+        if (!img_path) return res.status(400).json({ message: 'Image URL required' });
+
+        try {
+            await updateOrInsertMedia({
+                entity_id: id,
+                entity_type: 'report',
+                img_path,
+                type: 'cover',
+                alt_text
+            });
+
+            res.json({ message: 'Cover image updated (url).' });
+        } catch (err) {
+            next(err);
+        }
+    }
+
 module.exports = {
     createNewsEntry,
     listNews,
@@ -226,5 +437,15 @@ module.exports = {
     createReportEntry,
     listReports,
     getReportEntry,
-    softDeleteReport
+    softDeleteReport,
+    assignAuctionWinnerEntry,
+    updateNewsCover,
+    updateNewsCoverFromUrl,
+    updateNewsEntry,
+    updateReportCover,
+    updateReportEntry,
+    updateReportCoverFromUrl,
+    updateAuctionEntry,
+    updateAuctionCover,
+    updateAuctionCoverFromUrl
 };
