@@ -4,16 +4,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="gallery api, global/type search by keyword, contact form sent to my email">
-      <change afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/axios.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" afterDir="false" />
+    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="frontend header + homepage + loginmodal">
+      <change afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/api/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/Logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/Subtract.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/image 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/ЗСУ 1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ArticleListPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/AuctionsList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ContentPageLayout.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/HeaderNav.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/LayoutWrapper.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/LoginModal.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/MainSection.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/NewsList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/PaginationControl.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ReportsList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/context/SessionProvider.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AuctionDetailPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AuctionsPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/NewsDetailPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/NewsPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ReportDetailPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ReportsPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/SearchPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/controllers/content.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/content.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/services/auction.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/auction.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/for dummies.txt" beforeDir="false" afterPath="$PROJECT_DIR$/for dummies.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/news.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/news.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/reports.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/reports.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/search.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/search.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +55,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="JSX File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -53,27 +82,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master-mac&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/margosheremet/Desktop/volod/Volunteers-root&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.HeaderNav.jsx.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master-mac",
+    "last_opened_file_path": "/Users/margosheremet/Desktop/volod/Volunteers-root/frontend/src/pages",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Applications/PhpStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/pages" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -93,7 +129,7 @@
       <workItem from="1744679367916" duration="123000" />
       <workItem from="1744816942772" duration="1569000" />
       <workItem from="1744823500159" duration="18353000" />
-      <workItem from="1745449065276" duration="37333000" />
+      <workItem from="1745449065276" duration="66179000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />
@@ -191,7 +227,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746046826013</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="frontend init">
+      <option name="closed" value="true" />
+      <created>1746053788767</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1746053788767</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,6 +252,8 @@
     <MESSAGE value="." />
     <MESSAGE value="comments doe" />
     <MESSAGE value="gallery api, global/type search by keyword, contact form sent to my email" />
-    <option name="LAST_COMMIT_MESSAGE" value="gallery api, global/type search by keyword, contact form sent to my email" />
+    <MESSAGE value="frontend init" />
+    <MESSAGE value="frontend header + homepage + loginmodal" />
+    <option name="LAST_COMMIT_MESSAGE" value="frontend header + homepage + loginmodal" />
   </component>
 </project>

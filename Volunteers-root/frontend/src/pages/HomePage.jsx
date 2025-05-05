@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { testConnection } from '../api/test';
 import { Typography, Spin, Alert } from 'antd';
+import ReportsList from '../components/ReportsList.jsx';
+import AuctionsList from '../components/AuctionsList.jsx';
+import MainSection from "../components/MainSection.jsx";
+import NewsList from '../components/NewsList.jsx';
+
+
 
 const { Title } = Typography;
 
@@ -18,8 +24,12 @@ function HomePage() {
 
     if (loading) return <Spin />;
     if (error) return <Alert message={error} type="error" showIcon />;
-    console.log(message)
-    return (<> <Title level={3}>{message}</Title> <Spin /> <Spin /> <Spin /> </>);
+    return (<>
+        <MainSection />
+        <ReportsList type="preview" />
+        <AuctionsList type="preview" />
+        <NewsList type="preview" />
+    </>);
 }
 
 export default HomePage;

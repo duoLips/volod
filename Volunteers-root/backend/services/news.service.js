@@ -23,15 +23,19 @@ async function getAllNews({ limit = 10, page = 1, search = '' }) {
     const keyword = `%${search.toLowerCase()}%`;
 
     const dataQuery = await db.query(
-        `SELECT n.*, m.img_path, m.alt_text
+        `SELECT n.*, m.img_path, m.alt_text,
+                u.username, u.first_name, u.last_name
          FROM news n
-         LEFT JOIN media m ON m.entity_id = n.id AND m.entity_type = 'news' AND m.type = 'cover'
-         WHERE n.deleted_at IS NULL AND
-               (LOWER(n.title) LIKE $3 OR LOWER(n.body) LIKE $3)
+                  LEFT JOIN media m
+                            ON m.entity_id = n.id AND m.entity_type = 'news' AND m.type = 'cover'
+                  LEFT JOIN users u
+                            ON u.id = n.user_id
+         WHERE n.deleted_at IS NULL
          ORDER BY n.created_at DESC
-         LIMIT $1 OFFSET $2`,
-        [limit, offset, keyword]
+             LIMIT $1 OFFSET $2`,
+        [limit, offset]
     );
+
 
     const countQuery = await db.query(
         `SELECT COUNT(*) FROM news WHERE deleted_at IS NULL AND (LOWER(title) LIKE $1 OR LOWER(body) LIKE $1)`,

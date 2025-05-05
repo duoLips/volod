@@ -66,12 +66,15 @@ async function getNewsById(req, res, next) {
 
     try {
         const { rows } = await db.query(
-            `SELECT n.*, m.img_path, m.alt_text
+            `SELECT n.*, m.img_path, m.alt_text,
+                    u.username, u.first_name, u.last_name
              FROM news n
-             LEFT JOIN media m ON m.entity_id = n.id AND m.entity_type = 'news' AND m.type = 'cover'
+                      LEFT JOIN media m ON m.entity_id = n.id AND m.entity_type = 'news' AND m.type = 'cover'
+                      LEFT JOIN users u ON u.id = n.user_id
              WHERE n.id = $1 AND n.deleted_at IS NULL`,
             [id]
         );
+
 
         if (!rows.length) return res.status(404).json({ message: 'News not found' });
 

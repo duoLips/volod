@@ -14,16 +14,21 @@ async function getAllReports({ limit = 10, page = 1, search = '' }) {
     const keyword = `%${search.toLowerCase()}%`;
 
     const dataQuery = await db.query(
-        `SELECT r.*, m.img_path, m.alt_text, a.id AS auction_id
+        `SELECT r.*, m.img_path, m.alt_text, a.id AS auction_id,
+                u.username, u.first_name, u.last_name
          FROM reports r
-         LEFT JOIN media m ON m.entity_id = r.id AND m.entity_type = 'report' AND m.type = 'cover'
-         LEFT JOIN auctions a ON a.id = r.auction_id
-         WHERE r.deleted_at IS NULL AND
-               (LOWER(r.title) LIKE $3 OR LOWER(r.body) LIKE $3)
+                  LEFT JOIN media m
+                            ON m.entity_id = r.id AND m.entity_type = 'report' AND m.type = 'cover'
+                  LEFT JOIN auctions a
+                            ON a.id = r.auction_id
+                  LEFT JOIN users u
+                            ON u.id = r.user_id
+         WHERE r.deleted_at IS NULL
          ORDER BY r.created_at DESC
-         LIMIT $1 OFFSET $2`,
-        [limit, offset, keyword]
+             LIMIT $1 OFFSET $2`,
+        [limit, offset]
     );
+
 
     const countQuery = await db.query(
         `SELECT COUNT(*) FROM reports WHERE deleted_at IS NULL AND (LOWER(title) LIKE $1 OR LOWER(body) LIKE $1)`,
@@ -39,7 +44,13 @@ async function getAllReports({ limit = 10, page = 1, search = '' }) {
 
 async function getReportById(id) {
     const { rows } = await db.query(
-        `SELECT r.*, m.img_path, m.alt_text, a.id AS auction_id
+        `SELECT r.*, 
+                m.img_path, 
+                m.alt_text, 
+                a.id AS auction_id,
+                u.username, 
+                u.first_name, 
+                u.last_name
          FROM reports r
          LEFT JOIN media m 
            ON m.entity_id = r.id 
@@ -47,11 +58,14 @@ async function getReportById(id) {
           AND m.type = 'cover'
          LEFT JOIN auctions a 
            ON a.id = r.auction_id
+         LEFT JOIN users u 
+           ON u.id = r.user_id
          WHERE r.id = $1 AND r.deleted_at IS NULL`,
         [id]
     );
     return rows[0] || null;
 }
+
 
 async function deleteReport(id) {
     await db.query(
