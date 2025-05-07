@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Form, Input, Button, message, Tag } from 'antd';
+import debounce from 'lodash.debounce';
 import API from '../../api/axios';
 import { refreshSession } from '../../api/session';
 import { useSession } from '../../context/SessionProvider.jsx';
@@ -11,6 +12,7 @@ export default function UpdateProfileForm() {
     const [changedFields, setChangedFields] = useState({});
     const [submitting, setSubmitting] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [isSaveDisabled, setIsSaveDisabled] = useState(true);
     const { refetchSession } = useSession();
 
     useEffect(() => {
@@ -18,8 +20,6 @@ export default function UpdateProfileForm() {
             .then((res) => {
                 const data = res.data;
                 const formattedPhone = String(data.phone || '').replace(/^\+?380/, '');
-
-
                 const normalizedData = {
                     firstName: data.first_name,
                     lastName: data.last_name,
@@ -37,6 +37,17 @@ export default function UpdateProfileForm() {
             });
     }, []);
 
+    const checkFormValidity = debounce(async () => {
+        try {
+            await form.validateFields({ validateOnly: true });
+            setIsSaveDisabled(
+                Object.keys(changedFields).length === 0 || submitting
+            );
+        } catch {
+            setIsSaveDisabled(true);
+        }
+    }, 300);
+
     const onValuesChange = (_, allValues) => {
         const changed = {};
         for (const key in allValues) {
@@ -45,6 +56,7 @@ export default function UpdateProfileForm() {
             }
         }
         setChangedFields(changed);
+        checkFormValidity();
     };
 
     const onFinish = async () => {
@@ -62,6 +74,7 @@ export default function UpdateProfileForm() {
             refetchSession();
             setSuccessMessage('Профіль успішно оновлено');
             setChangedFields({});
+            setIsSaveDisabled(true);
         } catch (err) {
             const msg = err.response?.data?.message;
 
@@ -77,12 +90,6 @@ export default function UpdateProfileForm() {
         }
     };
 
-    const isSaveDisabled =
-        Object.keys(changedFields).length === 0 ||
-        submitting ||
-        !form.isFieldsTouched(true) ||
-        form.getFieldsError().some(({ errors }) => errors.length > 0);
-
     return (
         <Form
             form={form}
@@ -96,19 +103,63 @@ export default function UpdateProfileForm() {
                 </div>
             )}
 
-            <Form.Item label="Імʼя" name="firstName">
+            <Form.Item
+                label="Імʼя"
+                name="firstName"
+                rules={[
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            if (value || initialData.firstName === '') return Promise.resolve();
+                            return Promise.reject('Поле не може бути порожнім');
+                        },
+                    }),
+                ]}
+            >
                 <Input />
             </Form.Item>
 
-            <Form.Item label="Прізвище" name="lastName">
+            <Form.Item
+                label="Прізвище"
+                name="lastName"
+                rules={[
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            if (value || initialData.lastName === '') return Promise.resolve();
+                            return Promise.reject('Поле не може бути порожнім');
+                        },
+                    }),
+                ]}
+            >
                 <Input />
             </Form.Item>
 
-            <Form.Item label="Імʼя користувача" name="username">
+            <Form.Item
+                label="Імʼя користувача"
+                name="username"
+                rules={[
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            if (value || initialData.username === '') return Promise.resolve();
+                            return Promise.reject('Поле не може бути порожнім');
+                        },
+                    }),
+                ]}
+            >
                 <Input />
             </Form.Item>
 
-            <Form.Item label="Адреса" name="address">
+            <Form.Item
+                label="Адреса"
+                name="address"
+                rules={[
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            if (value || initialData.address === '') return Promise.resolve();
+                            return Promise.reject('Поле не може бути порожнім');
+                        },
+                    }),
+                ]}
+            >
                 <Input />
             </Form.Item>
 
@@ -120,6 +171,12 @@ export default function UpdateProfileForm() {
                         pattern: /^\d{9}$/,
                         message: 'Введіть 9 цифр після +380',
                     },
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            if (value || initialData.phone === '') return Promise.resolve();
+                            return Promise.reject('Поле не може бути порожнім');
+                        },
+                    }),
                 ]}
             >
                 <Input
