@@ -3,7 +3,8 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import Logo from '../assets/Logo.svg';
 import {UserOutlined} from '@ant-design/icons';
-import LoginModal from './LoginModal';
+import RegisterModal from "./modals/RegisterModal.jsx";
+import LoginModal from './modals/LoginModal.jsx';
 import API from '../api/axios';
 import {useSession} from '../context/SessionProvider';
 
@@ -12,6 +13,7 @@ const {Search} = Input;
 function HeaderNav() {
     const [current, setCurrent] = useState(null);
     const [loginOpen, setLoginOpen] = useState(false);
+    const [registerOpen, setRegisterOpen] = useState(false);
     const navigate = useNavigate();
     const {session} = useSession();
 
@@ -76,8 +78,15 @@ function HeaderNav() {
                         label: session?.authenticated ? (
                             <Dropdown menu={userDropdown}>
                             <span style={{cursor: 'pointer'}}>
-                            <Avatar icon={<UserOutlined/>} size="small" style={{marginRight: 8}}/>
-                                 {session.user.username}
+                                <Avatar
+                                    src={session.user.avatar_url}
+                                    size="small"
+                                    style={{ marginRight: 8 }}
+                                />
+                                {session.user.username ||
+                                    `${session.user.firstName || ''} ${session.user.lastName || ''}`.trim() ||
+                                    'Користувач'}
+
                              </span>
                             </Dropdown>) : (<Button
                                 color="primary"
@@ -94,8 +103,11 @@ function HeaderNav() {
                     ]}
                 />
 
-                <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)}/>
-
+                <LoginModal open={loginOpen}
+                            onClose={() => setLoginOpen(false)}
+                            onOpenRegister={() => setRegisterOpen(true)}
+                />
+                <RegisterModal open={registerOpen} onClose={() => setRegisterOpen(false)} />
                 <Search
                     placeholder="Пошук..."
                     style={{padding: "0 15px 0 35px"}}

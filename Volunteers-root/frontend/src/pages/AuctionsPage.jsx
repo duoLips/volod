@@ -1,4 +1,4 @@
-import ContentPageLayout from '../components/ContentPageLayout';
+import ContentPageLayout from '../components/layouts/ContentPageLayout.jsx';
 import AuctionsList from "../components/AuctionsList.jsx";
 
 function AuctionsPage() {

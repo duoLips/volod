@@ -50,6 +50,16 @@ async function findByIdentifier(identifier) {
     );
     return rows[0] || null;
 }
+
+async function getUserMe(id) {
+    const { rows } = await db.query(
+        `SELECT id, username, email, first_name, last_name, phone, address, role_id AS role, avatar_url
+         FROM users
+         WHERE id = $1`,
+        [id]
+    );
+    return rows[0] || null;
+}
 async function getUserById(id) {
     const { rows } = await db.query(
         `SELECT id, username, email, role_id AS role, avatar_url
@@ -212,5 +222,6 @@ module.exports = {
     softDeleteUser,
     changeUserPassword,
     resetUserPasswordByEmail,
-    searchUsersAutocomplete
+    searchUsersAutocomplete,
+    getUserMe
 };

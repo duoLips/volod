@@ -4,11 +4,11 @@ import SearchPage from './pages/SearchPage';
 import NewsDetailPage from './pages/NewsDetailPage';
 import ReportDetailPage from './pages/ReportDetailPage';
 import AuctionDetailPage from './pages/AuctionDetailPage';
-import LayoutWrapper from './components/LayoutWrapper';
+import LayoutWrapper from './components/layouts/LayoutWrapper.jsx';
 import NewsPage from "./pages/NewsPage.jsx";
 import ReportsPage from "./pages/ReportsPage.jsx";
 import AuctionsPage from "./pages/AuctionsPage.jsx";
-
+import ProfilePage from "./pages/ProfilePage.jsx";
 function App() {
     return (
         <Routes>
@@ -21,6 +21,7 @@ function App() {
                 <Route path="/news" element={<NewsPage />} />
                 <Route path="/reports" element={<ReportsPage />} />
                 <Route path="/auctions" element={<AuctionsPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
             </Route>
         </Routes>
     );

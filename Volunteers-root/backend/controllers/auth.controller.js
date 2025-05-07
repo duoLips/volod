@@ -40,7 +40,15 @@ async function register(req, res, next) {
             address
         });
 
-        req.session.user = { id: user.id, username: user.username, role: user.role_id }; // instant login
+        req.session.user = {
+            id: user.id,
+            username: user.username || null,
+            firstName: user.first_name || null,
+            lastName: user.last_name || null,
+            role: user.role_id,
+            avatar_url: user.avatar_url || null
+        };
+
         res.status(201).json({ user });
     } catch (err) {
         next(err);
@@ -73,8 +81,16 @@ async function loginPassword(req, res, next) {
 
         delete loginFailures[identifier];
 
-        req.session.user = { id: user.id, username: user.username, role: user.role_id };
-        res.json({ message: 'Logged in', user: { id: user.id, username: user.username, role: user.role_id } });
+        req.session.user = {
+            id: user.id,
+            username: user.username,
+            firstName: user.first_name || null,
+            lastName: user.last_name || null,
+            role: user.role_id,
+            avatar_url: user.avatar_url || null
+        };
+
+        res.json({ message: 'Logged in', user: req.session.user });
     } catch (err) {
         next(err);
     }
@@ -109,7 +125,14 @@ async function verifyLoginOTP(req, res, next) {
         const result = await validateOTP(user.email, code);
         if (!result.valid) return res.status(400).json({ message: result.reason });
 
-        req.session.user = { id: user.id, username: user.username, role: user.role_id };
+        req.session.user = {
+            id: user.id,
+            username: user.username || null,
+            firstName: user.first_name || null,
+            lastName: user.last_name || null,
+            role: user.role_id,
+            avatar_url: user.avatar_url || null
+        };
         res.json({ message: 'Logged in', user: { id: user.id, username: user.username, role: user.role_id } });
     } catch (err) { next(err); }
 }
@@ -169,8 +192,11 @@ async function restoreProfile(req, res, next) {
 
         req.session.user = {
             id: user.id,
-            username: user.username,
-            role: user.role_id
+            username: user.username || null,
+            firstName: user.first_name || null,
+            lastName: user.last_name || null,
+            role: user.role_id,
+            avatar_url: user.avatar_url || null
         };
 
         res.json({ message: 'Account restored and logged in', user });

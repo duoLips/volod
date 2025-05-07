@@ -1,5 +1,5 @@
 const { usernameExists, getUserById, updateUserProfile, getAllUsers, banUser, unbanUser,
-    softDeleteUser, changeUserPassword, searchUsersAutocomplete } = require('../services/user.service');
+    softDeleteUser, changeUserPassword, searchUsersAutocomplete, getUserMe } = require('../services/user.service');
 const { isValidUsername, isValidPassword, isValidEmail } = require('../utils/validation.helper');
 const {  uploadImageFromBuffer  } = require('../utils/cloudinary.helper')
 const db = require('../models/db');
@@ -22,7 +22,7 @@ async function getCurrentUser(req, res, next) {
     if (!userId) return res.status(401).json({ message: 'Not authenticated' });
 
     try {
-        const user = await getUserById(userId);
+        const user = await getUserMe(userId);
         if (!user) return res.status(404).json({ message: 'User not found' });
         res.json(user);
     } catch (err) {

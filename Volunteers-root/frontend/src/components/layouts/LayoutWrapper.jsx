@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { Outlet } from 'react-router-dom';
-import HeaderNav from "./HeaderNav.jsx";
+import HeaderNav from "../HeaderNav.jsx";
 const { Header, Content, Footer } = Layout;
 
 

@@ -5,44 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="frontend header + homepage + loginmodal">
-      <change afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/Logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/Subtract.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/image 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/ЗСУ 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ArticleListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/AuctionsList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ContentPageLayout.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/HeaderNav.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/LayoutWrapper.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/LoginModal.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/MainSection.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/NewsList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/PaginationControl.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ReportsList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/context/SessionProvider.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AuctionDetailPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AuctionsPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/NewsDetailPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/NewsPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ReportDetailPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ReportsPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/SearchPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ProfileSidebar.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/modals/RegisterModal.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/settings/UpdateProfileForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ProfilePage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/content.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/content.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/auction.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/auction.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/news.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/news.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/reports.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/reports.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/search.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/search.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/auth.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/user.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ContentPageLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layouts/ContentPageLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/HeaderNav.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HeaderNav.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LayoutWrapper.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layouts/LayoutWrapper.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/modals/LoginModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AuctionsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AuctionsPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/NewsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/NewsPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ReportsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ReportsPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,6 +89,10 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontend/src/pages" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/components/layouts" />
+      <recent name="$PROJECT_DIR$/frontend/src/components/modals" />
+    </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -129,7 +113,7 @@
       <workItem from="1744679367916" duration="123000" />
       <workItem from="1744816942772" duration="1569000" />
       <workItem from="1744823500159" duration="18353000" />
-      <workItem from="1745449065276" duration="66179000" />
+      <workItem from="1745449065276" duration="76355000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />
@@ -235,7 +219,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746053788767</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="frontend header + homepage + loginmodal">
+      <option name="closed" value="true" />
+      <created>1746473441463</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1746473441463</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

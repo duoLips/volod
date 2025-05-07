@@ -1,12 +1,12 @@
 import { Modal, Form, Input, Button, Typography, Alert } from 'antd';
 import { useState } from 'react';
-import API from '../api/axios';
+import API from '../../api/axios.js';
 import { useQueryClient } from '@tanstack/react-query';
-import { useSession } from '../context/SessionProvider';
+import { useSession } from '../../context/SessionProvider.jsx';
 
 const { Title } = Typography;
 
-export default function LoginModal({ open, onClose }) {
+export default function LoginModal({ open, onClose, onOpenRegister }) {
     const queryClient = useQueryClient();
     const [form] = Form.useForm();
     const [mode, setMode] = useState('otp'); // 'otp' or 'password'
@@ -23,7 +23,7 @@ export default function LoginModal({ open, onClose }) {
             setStep('verify');
             setError(null);
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to send OTP');
+            setError(err.response?.data?.message || 'Не вдалося надіслати код');
         } finally {
             setLoading(false);
         }
@@ -37,7 +37,7 @@ export default function LoginModal({ open, onClose }) {
             await refetchSession();
             onClose();
         } catch (err) {
-            setError(err.response?.data?.message || 'OTP verification failed');
+            setError(err.response?.data?.message || 'Невірний код');
         } finally {
             setLoading(false);
         }
@@ -51,43 +51,55 @@ export default function LoginModal({ open, onClose }) {
             await refetchSession();
             onClose();
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed');
+            setError(err.response?.data?.message || 'Помилка входу');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <Modal title="Login" open={open} onCancel={onClose} footer={null}>
+        <Modal title="Вхід" open={open} onCancel={onClose} footer={null}>
             <Form form={form} layout="vertical">
-                <Form.Item name="identifier" label="Username or Email" rules={[{ required: true }]}>
+                <Form.Item
+                    name="identifier"
+                    label="Імʼя користувача або e‑mail"
+                    rules={[{ required: true, message: 'Обовʼязкове поле' }]}
+                >
                     <Input />
                 </Form.Item>
 
                 {mode === 'password' && (
                     <>
-                        <Form.Item name="password" label="Password" rules={[{ required: true }]}>
+                        <Form.Item
+                            name="password"
+                            label="Пароль"
+                            rules={[{ required: true, message: 'Введіть пароль' }]}
+                        >
                             <Input.Password />
                         </Form.Item>
                         <Button type="primary" loading={loading} block onClick={handlePasswordLogin}>
-                            Login
+                            Увійти
                         </Button>
                     </>
                 )}
 
                 {mode === 'otp' && step === 'input' && (
                     <Button type="primary" loading={loading} block onClick={handleOtpStart}>
-                        Send OTP
+                        Надіслати код
                     </Button>
                 )}
 
                 {mode === 'otp' && step === 'verify' && (
                     <>
-                        <Form.Item name="code" label="OTP Code" rules={[{ required: true }]}>
+                        <Form.Item
+                            name="code"
+                            label="Код з пошти"
+                            rules={[{ required: true, message: 'Введіть код' }]}
+                        >
                             <Input />
                         </Form.Item>
                         <Button type="primary" loading={loading} block onClick={handleOtpVerify}>
-                            Verify and Login
+                            Увійти
                         </Button>
                     </>
                 )}
@@ -102,7 +114,18 @@ export default function LoginModal({ open, onClose }) {
                         form.resetFields(['password', 'code']);
                     }}
                 >
-                    {mode === 'otp' ? 'Login with password instead' : 'Use passwordless login'}
+                    {mode === 'otp' ? 'Увійти за паролем' : 'Увійти без паролю'}
+                </Button>
+
+                <Button
+                    type="link"
+                    style={{ marginTop: 0, padding: 0, marginLeft: '20px' }}
+                    onClick={() => {
+                        onClose();
+                        onOpenRegister();
+                    }}
+                >
+                    Зареєструватися
                 </Button>
 
                 {error && <Alert type="error" message={error} showIcon style={{ marginTop: 12 }} />}

@@ -1,4 +1,4 @@
-import ContentPageLayout from '../components/ContentPageLayout';
+import ContentPageLayout from '../components/layouts/ContentPageLayout.jsx';
 import NewsList from '../components/NewsList';
 
 function NewsPage() {
