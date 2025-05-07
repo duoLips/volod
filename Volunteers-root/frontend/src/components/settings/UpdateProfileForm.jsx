@@ -12,7 +12,9 @@ export default function UpdateProfileForm() {
     const [changedFields, setChangedFields] = useState({});
     const [submitting, setSubmitting] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
-    const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+    const [usernameError, setUsernameError] = useState(null);
+    const [checkingUsername, setCheckingUsername] = useState(false);
+    const [isTouched, setIsTouched] = useState(false);
     const { refetchSession } = useSession();
 
     useEffect(() => {
@@ -37,26 +39,44 @@ export default function UpdateProfileForm() {
             });
     }, []);
 
-    const checkFormValidity = debounce(async () => {
-        try {
-            await form.validateFields({ validateOnly: true });
-            setIsSaveDisabled(
-                Object.keys(changedFields).length === 0 || submitting
-            );
-        } catch {
-            setIsSaveDisabled(true);
+    const checkUsername = debounce(async (username) => {
+        if (!username) {
+            setUsernameError('Поле не може бути порожнім');
+            return;
         }
-    }, 300);
+        if (!/^[A-Za-z0-9._]{5,20}$/.test(username)) {
+            setUsernameError('Імʼя користувача повинно містити 5–20 символів: літери, цифри, ".", "_"');
+            return;
+        }
+
+        setUsernameError(null);
+        if (username === initialData.username) return;
+
+        setCheckingUsername(true);
+        try {
+            const { data } = await API.get(`/auth/available/${username}`);
+            if (data.exists) {
+                setUsernameError('Це імʼя вже зайнято');
+            }
+        } catch (err) {
+            setUsernameError(err.response?.data?.message || 'Помилка перевірки');
+        } finally {
+            setCheckingUsername(false);
+        }
+    }, 500);
 
     const onValuesChange = (_, allValues) => {
         const changed = {};
+        let touched = false;
+
         for (const key in allValues) {
             if (allValues[key] !== initialData[key]) {
                 changed[key] = allValues[key];
+                touched = true;
             }
         }
+        setIsTouched(touched);
         setChangedFields(changed);
-        checkFormValidity();
     };
 
     const onFinish = async () => {
@@ -74,7 +94,7 @@ export default function UpdateProfileForm() {
             refetchSession();
             setSuccessMessage('Профіль успішно оновлено');
             setChangedFields({});
-            setIsSaveDisabled(true);
+            setIsTouched(false);
         } catch (err) {
             const msg = err.response?.data?.message;
 
@@ -89,6 +109,20 @@ export default function UpdateProfileForm() {
             setSubmitting(false);
         }
     };
+    const anyRequiredChangedFieldIsEmpty = Object.entries(changedFields).some(
+        ([key, value]) =>
+            ['firstName', 'lastName', 'username', 'address', 'phone'].includes(key) &&
+            (value === undefined || value === null || value === '')
+    );
+    const hasFormErrors = form.getFieldsError().some(({ errors }) => errors.length > 0);
+    const isSaveDisabled =
+        !isTouched ||
+        submitting ||
+        hasFormErrors ||
+        checkingUsername ||
+        !!usernameError ||
+        anyRequiredChangedFieldIsEmpty;
+
 
     return (
         <Form
@@ -136,7 +170,13 @@ export default function UpdateProfileForm() {
             <Form.Item
                 label="Імʼя користувача"
                 name="username"
+                validateStatus={usernameError ? 'error' : checkingUsername ? 'validating' : ''}
+                help={usernameError || ''}
                 rules={[
+                    {
+                        pattern: /^[A-Za-z0-9._]{5,20}$/,
+                        message: '5–20 символів: букви, цифри, ".", "_"',
+                    },
                     ({ getFieldValue }) => ({
                         validator(_, value) {
                             if (value || initialData.username === '') return Promise.resolve();
@@ -145,7 +185,7 @@ export default function UpdateProfileForm() {
                     }),
                 ]}
             >
-                <Input />
+                <Input onChange={(e) => checkUsername(e.target.value)} />
             </Form.Item>
 
             <Form.Item
@@ -188,6 +228,7 @@ export default function UpdateProfileForm() {
                     }}
                 />
             </Form.Item>
+
             <Form.Item>
                 <Button
                     type="primary"
