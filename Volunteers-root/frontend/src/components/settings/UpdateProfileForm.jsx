@@ -1,220 +1,147 @@
-import { useEffect, useState, useCallback } from 'react';
-import { Form, Input, Button, message, Spin, Tag } from 'antd';
-import {
-    CheckCircleOutlined,
-    CloseCircleOutlined,
-    LoadingOutlined,
-} from '@ant-design/icons';
-import debounce from 'lodash.debounce';
+import { useEffect, useState } from 'react';
+import { Form, Input, Button, message, Tag } from 'antd';
 import API from '../../api/axios';
+import { refreshSession } from '../../api/session';
+import { useSession } from '../../context/SessionProvider.jsx';
 
 export default function UpdateProfileForm() {
     const [form] = Form.useForm();
-    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [formStatus, setFormStatus] = useState(null); // 'success' | 'error'
-    const [checkingUsername, setCheckingUsername] = useState(false);
-    const [usernameAvailable, setUsernameAvailable] = useState(null);
-    const [currentUsername, setCurrentUsername] = useState('');
+    const [initialData, setInitialData] = useState({});
+    const [changedFields, setChangedFields] = useState({});
+    const [submitting, setSubmitting] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const { refetchSession } = useSession();
 
     useEffect(() => {
-        async function loadUser() {
-            try {
-                const res = await API.get('/users/me');
-                setUser(res.data);
-                setCurrentUsername(res.data.username);
-                form.setFieldsValue({
-                    firstName: res.data.first_name,
-                    lastName: res.data.last_name,
-                    username: res.data.username,
-                    address: res.data.address,
-                    phone: res.data.phone,
-                });
-            } catch {
-                message.error('Не вдалося завантажити дані користувача');
-            } finally {
+        API.get('/users/me')
+            .then((res) => {
+                const data = res.data;
+                const formattedPhone = String(data.phone || '').replace(/^\+?380/, '');
+
+
+                const normalizedData = {
+                    firstName: data.first_name,
+                    lastName: data.last_name,
+                    username: data.username,
+                    phone: formattedPhone,
+                    address: data.address
+                };
+                setInitialData(normalizedData);
+                form.setFieldsValue(normalizedData);
                 setLoading(false);
-            }
-        }
-
-        loadUser();
-    }, [form]);
-
-    const checkUsernameAvailability = useCallback(
-        debounce(async (value) => {
-            if (!value || value === currentUsername) {
-                setUsernameAvailable(null);
-                return;
-            }
-
-            const isValid = /^[a-zA-Z0-9._]{5,20}$/.test(value);
-            if (!isValid) {
-                setUsernameAvailable(null); // don't flag it as taken if just invalid
-                return;
-            }
-
-            setCheckingUsername(true);
-            try {
-                const res = await API.get(`/auth/available/${value}`);
-                setUsernameAvailable(!res.data.exists);
-            } catch {
-                setUsernameAvailable(false);
-            } finally {
-                setCheckingUsername(false);
-                form.validateFields(['username']); // retrigger validation after async check
-            }
-        }, 400),
-        [currentUsername, form]
-    );
-
-
-    const handleSubmit = async (current) => {
-        if (!user) return;
-
-        for (const [key, value] of Object.entries(current)) {
-            if (!`${value || ''}`.trim()) {
-                message.error(`Поле "${key}" не може бути порожнім`);
-                return;
-            }
-        }
-
-        if (
-            current.username !== currentUsername &&
-            (!/^[a-zA-Z0-9._]{5,20}$/.test(current.username) || usernameAvailable === false)
-        ) {
-            message.error('Імʼя користувача недоступне або некоректне');
-            return;
-        }
-
-        const original = {
-            firstName: user.first_name || '',
-            lastName: user.last_name || '',
-            username: user.username || '',
-            address: user.address || '',
-            phone: user.phone || '',
-        };
-
-        const updates = {};
-        for (const key in current) {
-            if ((current[key] || '') !== (original[key] || '')) {
-                updates[key] = current[key];
-            }
-        }
-
-        if (Object.keys(updates).length === 0) {
-            setFormStatus('error');
-            message.error('Зміни не виявлено. Поля залишилися без змін.');
-            return;
-        }
-
-        try {
-            await API.patch('/users/profile', updates);
-            setFormStatus('success');
-            message.success('Зміни збережено');
-
-            const updated = await API.get('/users/me');
-            setUser(updated.data);
-            setCurrentUsername(updated.data.username);
-            form.setFieldsValue({
-                firstName: updated.data.first_name,
-                lastName: updated.data.last_name,
-                username: updated.data.username,
-                address: updated.data.address,
-                phone: updated.data.phone,
+            })
+            .catch(() => {
+                message.error('Не вдалося завантажити профіль');
+                setLoading(false);
             });
+    }, []);
+
+    const onValuesChange = (_, allValues) => {
+        const changed = {};
+        for (const key in allValues) {
+            if (allValues[key] !== initialData[key]) {
+                changed[key] = allValues[key];
+            }
+        }
+        setChangedFields(changed);
+    };
+
+    const onFinish = async () => {
+        if (Object.keys(changedFields).length === 0) return;
+
+        setSubmitting(true);
+        try {
+            const payload = { ...changedFields };
+            if (payload.phone) {
+                payload.phone = `+380${payload.phone}`;
+            }
+
+            await API.patch('/users/profile', payload);
+            await refreshSession();
+            refetchSession();
+            setSuccessMessage('Профіль успішно оновлено');
+            setChangedFields({});
         } catch (err) {
-            setFormStatus('error');
-            message.error(err.response?.data?.message || 'Помилка оновлення профілю');
+            const msg = err.response?.data?.message;
+
+            if (msg?.toLowerCase().includes('username')) {
+                form.setFields([{ name: 'username', errors: [msg] }]);
+            } else if (msg?.toLowerCase().includes('phone')) {
+                form.setFields([{ name: 'phone', errors: [msg] }]);
+            } else {
+                message.error(msg || 'Помилка при оновленні профілю');
+            }
+        } finally {
+            setSubmitting(false);
         }
     };
 
-    if (loading) {
-        return (
-            <div style={{ padding: '4rem 0', textAlign: 'center' }}>
-                <Spin tip="Завантаження профілю..." />
-            </div>
-        );
-    }
-    const isEmpty = (name) => !form.getFieldValue(name)?.trim();
+    const isSaveDisabled =
+        Object.keys(changedFields).length === 0 ||
+        submitting ||
+        !form.isFieldsTouched(true) ||
+        form.getFieldsError().some(({ errors }) => errors.length > 0);
 
     return (
         <Form
             form={form}
             layout="vertical"
-            onFinish={handleSubmit}
-            requiredMark={false}
-            onValuesChange={(changed) => {
-                if (changed.username !== undefined) {
-                    checkUsernameAvailability(changed.username);
-                }
-            }}
+            onValuesChange={onValuesChange}
+            onFinish={onFinish}
         >
-            <div style={{ margin: 16 }}>
-                {formStatus === 'success' && (
-                    <Tag icon={<CheckCircleOutlined />} color="success">
-                        Зміни збережено
-                    </Tag>
-                )}
-                {formStatus === 'error' && (
-                    <Tag icon={<CloseCircleOutlined />} color="error">
-                        Помилка збереження
-                    </Tag>
-                )}
-            </div>
+            {successMessage && (
+                <div style={{ marginBottom: 16 }}>
+                    <Tag color="green">{successMessage}</Tag>
+                </div>
+            )}
 
-            <Form.Item name="firstName" label="Імʼя" rules={[{ required: true, message: 'Це поле не може бути пустим' }]}>
+            <Form.Item label="Імʼя" name="firstName">
                 <Input />
             </Form.Item>
-            <Form.Item name="lastName" label="Прізвище" rules={[{ required: true, message: 'Це поле не може бути пустим' }]}>
+
+            <Form.Item label="Прізвище" name="lastName">
+                <Input />
+            </Form.Item>
+
+            <Form.Item label="Імʼя користувача" name="username">
+                <Input />
+            </Form.Item>
+
+            <Form.Item label="Адреса" name="address">
                 <Input />
             </Form.Item>
 
             <Form.Item
-                name="username"
-                label="Імʼя користувача"
+                label="Телефон"
+                name="phone"
                 rules={[
-                    { required: true, message: " "},
-                    { whitespace: true, message: 'Це поле не може бути пустим' },
                     {
-                        validator(_, value) {
-                            if (!value) return Promise.reject('Це поле не може бути пустим');
-                            if (!/^[a-zA-Z0-9._]{5,20}$/.test(value)) {
-                                return Promise.reject('Має містити 5–20 символів');
-                            }
-                            if (usernameAvailable === false) {
-                                return Promise.reject('Це імʼя вже зайняте');
-                            }
-                            return Promise.resolve();
-                        },
+                        pattern: /^\d{9}$/,
+                        message: 'Введіть 9 цифр після +380',
                     },
                 ]}
-                validateTrigger={['onChange', 'onBlur']}
             >
-            <Input
-                    suffix={
-                        checkingUsername ? (
-                            <LoadingOutlined style={{ color: '#1890ff' }} />
-                        ) : usernameAvailable === true ? (
-                            <CheckCircleOutlined style={{ color: '#52c41a' }} />
-                        ) : usernameAvailable === false ? (
-                            <CloseCircleOutlined style={{ color: '#ff4d4f' }} />
-                        ) : null
-                    }
+                <Input
+                    addonBefore="+380"
+                    maxLength={9}
+                    onChange={(e) => {
+                        const onlyDigits = e.target.value.replace(/\D/g, '').slice(0, 9);
+                        form.setFieldValue('phone', onlyDigits);
+                    }}
                 />
             </Form.Item>
 
-
-            <Form.Item name="address" label="Адреса" rules={[{ required: true, message: 'Це поле не може бути пустим' }]}>
-                <Input />
+            <Form.Item>
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    disabled={isSaveDisabled}
+                    loading={submitting}
+                >
+                    Зберегти
+                </Button>
             </Form.Item>
-
-            <Form.Item name="phone" label="Телефон" rules={[{ required: true, message: 'Це поле не може бути пустим' }]}>
-                <Input />
-            </Form.Item>
-
-            <Button type="primary" htmlType="submit">
-                Зберегти зміни
-            </Button>
         </Form>
     );
 }

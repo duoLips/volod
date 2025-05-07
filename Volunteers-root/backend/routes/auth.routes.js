@@ -3,8 +3,9 @@ const router = require('express').Router();
 const {createRateLimiter} = require('../middleware/rateLimit')
 const { checkUsername } = require('../controllers/user.controller');
 const { register, loginPassword, requestLoginOTP, verifyLoginOTP,
-    sessionInfo, logout, restoreProfile, requestRestoreOTP,
+    sessionInfo, refreshSession, logout, restoreProfile, requestRestoreOTP,
 requestPasswordReset, resetPassword} = require('../controllers/auth.controller');
+const { isAuthenticated } = require('../middleware/auth.middleware');
 
 const loginLimiter = createRateLimiter({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -40,6 +41,7 @@ router.post('/login', loginLimiter, loginPassword);
 router.post('/login-otp/start', loginOTPStartLimiter, requestLoginOTP);
 router.post('/login-otp/verify', loginOTPVerifyLimiter, verifyLoginOTP);
 router.get('/session', sessionInfo);
+router.post('/session/refresh', isAuthenticated, refreshSession);
 router.post('/logout', logout)
 router.post('/restore', restoreProfile);
 router.post('/request-restore-otp', requestRestoreOTP);

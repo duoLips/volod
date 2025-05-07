@@ -87,7 +87,7 @@ async function updateUserProfile(id, updates) {
 
     // Validate phone if updated (simple regex)
     if (updates.phone !== undefined) {
-        const phoneRegex = /^\+?\d{7,15}$/;
+        const phoneRegex = /^\+380\d{9}$/;
         if (!phoneRegex.test(updates.phone)) {
             throw new Error('Invalid phone number format.');
         }

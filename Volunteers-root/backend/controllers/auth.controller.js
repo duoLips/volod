@@ -1,7 +1,8 @@
 const db = require('../models/db');
 const bcrypt = require('bcrypt');
+
 const { generateOTP, validateOTP } = require('../services/otp.service')
-const {emailExists, createUser, findByIdentifier, resetUserPasswordByEmail } = require('../services/user.service');
+const {emailExists, createUser, findByIdentifier, resetUserPasswordByEmail, getUserMe } = require('../services/user.service');
 const {isValidUsername, isValidEmail, isValidPassword} = require('../utils/validation.helper');
 
 const loginFailures = {};
@@ -146,6 +147,20 @@ async function sessionInfo(req, res) {
         user: req.session.user
     });
 }
+async function refreshSession(req, res) {
+    const user = await getUserMe(req.session.user.id);
+
+    req.session.user = {
+        id: user.id,
+        username: user.username,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        role: user.role,
+        avatar_url: user.avatar_url
+    };
+
+    res.json({ message: 'Session refreshed', user: req.session.user });
+}
 
 async function logout (req,res) {
     req.session.destroy(err => {
@@ -249,5 +264,6 @@ module.exports = {
     requestRestoreOTP,
     restoreProfile,
     requestPasswordReset,
-    resetPassword
+    resetPassword,
+    refreshSession
 };

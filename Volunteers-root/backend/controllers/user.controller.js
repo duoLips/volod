@@ -78,7 +78,6 @@ async function updateProfile(req, res, next) {
         const updatedUser = await updateUserProfile(userId, {
             firstName, lastName, username, phone, address
         });
-
         res.json({ message: 'Profile updated', user: updatedUser });
     } catch (err) {
         if (err.message.includes('Username already taken') || err.message.includes('Invalid')) {
