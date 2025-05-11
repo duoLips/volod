@@ -10,9 +10,12 @@ export default function LoginModal({ open, onClose, onOpenRegister }) {
     const queryClient = useQueryClient();
     const [form] = Form.useForm();
     const [mode, setMode] = useState('otp'); // 'otp' or 'password'
-    const [step, setStep] = useState('input'); // 'input' or 'verify'
+    const [step, setStep] = useState('input'); // 'input', 'verify', or 'deleted'
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [deletedEmail, setDeletedEmail] = useState(null);
+    const [restoreStep, setRestoreStep] = useState('start'); // 'start' or 'verify'
+    const [restoreCode, setRestoreCode] = useState('');
     const { refetchSession } = useSession();
 
     const handleOtpStart = async () => {
@@ -23,6 +26,15 @@ export default function LoginModal({ open, onClose, onOpenRegister }) {
             setStep('verify');
             setError(null);
         } catch (err) {
+            if (
+                err.response?.status === 403 &&
+                err.response?.data?.message === 'Account is deleted.'
+            ) {
+                setDeletedEmail(identifier);
+                setStep('deleted');
+                setError(null);
+                return;
+            }
             setError(err.response?.data?.message || 'Не вдалося надіслати код');
         } finally {
             setLoading(false);
@@ -37,6 +49,15 @@ export default function LoginModal({ open, onClose, onOpenRegister }) {
             await refetchSession();
             onClose();
         } catch (err) {
+            if (
+                err.response?.status === 403 &&
+                err.response?.data?.message === 'Account is deleted.'
+            ) {
+                setDeletedEmail(identifier);
+                setStep('deleted');
+                setError(null);
+                return;
+            }
             setError(err.response?.data?.message || 'Невірний код');
         } finally {
             setLoading(false);
@@ -51,7 +72,46 @@ export default function LoginModal({ open, onClose, onOpenRegister }) {
             await refetchSession();
             onClose();
         } catch (err) {
+            if (
+                err.response?.status === 403 &&
+                err.response?.data?.message === 'Account is deleted.'
+            ) {
+                setDeletedEmail(identifier);
+                setStep('deleted');
+                setError(null);
+                return;
+            }
             setError(err.response?.data?.message || 'Помилка входу');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleRequestRestoreOtp = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            await API.post('/auth/request-restore-otp', { email: deletedEmail });
+            setRestoreStep('verify');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Не вдалося надіслати код');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleRestoreVerify = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            await API.post('/auth/restore', {
+                email: deletedEmail,
+                code: restoreCode,
+            });
+            await refetchSession();
+            onClose();
+        } catch (err) {
+            setError(err.response?.data?.message || 'Невірний код');
         } finally {
             setLoading(false);
         }
@@ -60,15 +120,19 @@ export default function LoginModal({ open, onClose, onOpenRegister }) {
     return (
         <Modal title="Вхід" open={open} onCancel={onClose} footer={null}>
             <Form form={form} layout="vertical">
-                <Form.Item
-                    name="identifier"
-                    label="Імʼя користувача або e‑mail"
-                    rules={[{ required: true, message: 'Обовʼязкове поле' }]}
-                >
-                    <Input />
-                </Form.Item>
+                {step !== 'deleted' && (
+                    <>
+                        <Form.Item
+                            name="identifier"
+                            label="Імʼя користувача або e‑mail"
+                            rules={[{ required: true, message: 'Обовʼязкове поле' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                    </>
+                )}
 
-                {mode === 'password' && (
+                {mode === 'password' && step === 'input' && (
                     <>
                         <Form.Item
                             name="password"
@@ -104,29 +168,115 @@ export default function LoginModal({ open, onClose, onOpenRegister }) {
                     </>
                 )}
 
-                <Button
-                    type="link"
-                    style={{ marginTop: 10, padding: 0 }}
-                    onClick={() => {
-                        setMode(prev => (prev === 'otp' ? 'password' : 'otp'));
-                        setStep('input');
-                        setError(null);
-                        form.resetFields(['password', 'code']);
-                    }}
-                >
-                    {mode === 'otp' ? 'Увійти за паролем' : 'Увійти без паролю'}
-                </Button>
+                {step === 'deleted' && (
+                    <>
+                        <Form.Item
+                            label="Електронна пошта для відновлення"
+                            name="restoreEmail"
+                            rules={[
+                                { required: true, message: 'Введіть адресу електронної пошти' },
+                                {
+                                    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: 'Невірний формат e‑mail',
+                                },
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
 
-                <Button
-                    type="link"
-                    style={{ marginTop: 0, padding: 0, marginLeft: '20px' }}
-                    onClick={() => {
-                        onClose();
-                        onOpenRegister();
-                    }}
-                >
-                    Зареєструватися
-                </Button>
+                        {restoreStep === 'start' && (
+                            <Button
+                                type="primary"
+                                loading={loading}
+                                block
+                                onClick={async () => {
+                                    const email = form.getFieldValue('restoreEmail');
+                                    if (!email) return;
+
+                                    setLoading(true);
+                                    setError(null);
+                                    try {
+                                        await API.post('/auth/request-restore-otp', { email });
+                                        setDeletedEmail(email);
+                                        setRestoreStep('verify');
+                                    } catch (err) {
+                                        setError(err.response?.data?.message || 'Не вдалося надіслати код');
+                                    } finally {
+                                        setLoading(false);
+                                    }
+                                }}
+                            >
+                                Надіслати код для відновлення акаунта
+                            </Button>
+                        )}
+
+                        {restoreStep === 'verify' && (
+                            <>
+                                <Form.Item label="Код з пошти">
+                                    <Input
+                                        value={restoreCode}
+                                        onChange={(e) => {
+                                            setRestoreCode(e.target.value);
+                                            setError(null);
+                                        }}
+                                    />
+                                </Form.Item>
+                                <Button
+                                    type="primary"
+                                    loading={loading}
+                                    block
+                                    onClick={async () => {
+                                        setLoading(true);
+                                        setError(null);
+                                        try {
+                                            await API.post('/auth/restore', {
+                                                email: deletedEmail,
+                                                code: restoreCode,
+                                            });
+                                            await refetchSession();
+                                            onClose();
+                                        } catch (err) {
+                                            setError(err.response?.data?.message || 'Невірний код');
+                                        } finally {
+                                            setLoading(false);
+                                        }
+                                    }}
+                                >
+                                    Відновити акаунт
+                                </Button>
+                            </>
+                        )}
+                    </>
+                )}
+
+
+                {step !== 'deleted' && (
+                    <>
+                        <Button
+                            type="link"
+                            style={{ marginTop: 10, padding: 0 }}
+                            onClick={() => {
+                                setMode(prev => (prev === 'otp' ? 'password' : 'otp'));
+                                setStep('input');
+                                setError(null);
+                                form.resetFields(['password', 'code']);
+                            }}
+                        >
+                            {mode === 'otp' ? 'Увійти за паролем' : 'Увійти без паролю'}
+                        </Button>
+
+                        <Button
+                            type="link"
+                            style={{ marginTop: 0, padding: 0, marginLeft: '20px' }}
+                            onClick={() => {
+                                onClose();
+                                onOpenRegister();
+                            }}
+                        >
+                            Зареєструватися
+                        </Button>
+                    </>
+                )}
 
                 {error && <Alert type="error" message={error} showIcon style={{ marginTop: 12 }} />}
             </Form>

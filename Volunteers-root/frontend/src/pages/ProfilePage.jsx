@@ -5,6 +5,7 @@ import AvatarUploader from "../components/settings/AvatarUploader.jsx"
 import ResetPassword from '../components/settings/ResetPassword.jsx'
 import {Divider} from "antd";
 import ChangeEmail from "../components/settings/ChangeEmail.jsx";
+import ProfileComments from "../components/settings/ProfileComments.jsx";
 export default function ProfilePage() {
     const [activeTab, setActiveTab] = useState('auctions');
 
@@ -30,7 +31,9 @@ export default function ProfilePage() {
             case 'auctions':
                 return <h2>Aукціони</h2>;
             case 'comments':
-                return <h2>Коментарі</h2>;
+                return <>
+                <ProfileComments/>
+                </>;
             case 'stats':
                 return <h2>Статистика</h2>;
             default:

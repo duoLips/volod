@@ -9,8 +9,6 @@ const { Title, Paragraph, Text } = Typography;
 function AuctionDetailPage() {
     const { id } = useParams();
 
-
-
     const { data, isLoading, isError } = useQuery({
         queryKey: ['auction', id],
         queryFn: () => API.get(`/auctions/${id}`).then(res => res.data),

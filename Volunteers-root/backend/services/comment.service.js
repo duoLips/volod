@@ -25,7 +25,19 @@ async function listComments(entityType, entityId) {
 
     return rows;
 }
-async function softDeleteComment(commentId, userId, isAdmin) {
+
+async function getCommentsByUser(userId) {
+    const { rows } = await db.query(
+        `SELECT c.id, c.body, c.created_at, c.entity_type, c.entity_id,
+                c.parent_id, u.username, u.avatar_url
+         FROM comms c
+         JOIN users u ON c.user_id = u.id
+         WHERE c.user_id = $1
+         ORDER BY c.created_at DESC`,
+        [userId]
+    );
+    return rows;
+}async function softDeleteComment(commentId, userId, isAdmin) {
     let result;
 
     if (isAdmin) {
@@ -55,6 +67,7 @@ async function softDeleteComment(commentId, userId, isAdmin) {
 module.exports = {
     createComment,
     listComments,
-    softDeleteComment
+    softDeleteComment,
+    getCommentsByUser
 };
 

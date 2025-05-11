@@ -39,10 +39,10 @@ export default function ProfileSidebar({ selectedKey, onSelect }) {
                         key: 'comments',
                         label: 'Коментарі',
                     },
-                    {
-                        key: 'stats',
-                        label: 'Статистика',
-                    }
+                    // {
+                    //     key: 'stats',
+                    //     label: 'Статистика',
+                    // }
                 ]}
             />
 

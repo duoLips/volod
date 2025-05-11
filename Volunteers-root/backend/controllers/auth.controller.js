@@ -196,10 +196,13 @@ async function restoreProfile(req, res, next) {
         if (!result.valid) return res.status(400).json({ message: result.reason });
 
         const { rows } = await db.query(
-            `UPDATE users SET deleted_at = NULL WHERE email = $1
-             RETURNING id, username, role_id`,
+            `UPDATE users
+             SET deleted_at = NULL
+             WHERE email = $1
+                 RETURNING id, username, first_name, last_name, role_id, avatar_url`,
             [email]
         );
+
 
         if (!rows.length) return res.status(400).json({ message: 'Account not found' });
 

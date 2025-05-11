@@ -1,4 +1,4 @@
-const { createComment, listComments, softDeleteComment } = require('../services/comment.service');
+const { createComment, listComments, softDeleteComment, getCommentsByUser } = require('../services/comment.service');
 
 async function createCommentEntry(req, res, next) {
     const { entityType, entityId, body, parentId } = req.body;
@@ -36,7 +36,17 @@ async function listCommentsEntry(req, res, next) {
         next(err);
     }
 }
+async function listUserComments(req, res, next) {
+    const userId = req.params.userId || req.query.userId;
+    if (!userId) return res.status(400).json({ message: 'Missing userId' });
 
+    try {
+        const comments = await getCommentsByUser(userId);
+        res.json({ comments });
+    } catch (err) {
+        next(err);
+    }
+}
 async function softDeleteCommentEntry(req, res, next) {
     const commentId = req.params.id;
     const userId = req.session?.user?.id;
@@ -63,5 +73,6 @@ async function softDeleteCommentEntry(req, res, next) {
 module.exports = {
     createCommentEntry,
     listCommentsEntry,
-    softDeleteCommentEntry
+    softDeleteCommentEntry,
+    listUserComments
 }
