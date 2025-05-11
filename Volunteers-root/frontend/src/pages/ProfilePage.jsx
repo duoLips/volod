@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import ProfileSidebar from '../components/ProfileSidebar';
 import UpdateProfileForm from "../components/settings/UpdateProfileForm.jsx";
+import AvatarUploader from "../components/settings/AvatarUploader.jsx"
+import ResetPassword from '../components/settings/ResetPassword.jsx'
+import {Divider} from "antd";
+import ChangeEmail from "../components/settings/ChangeEmail.jsx";
 export default function ProfilePage() {
     const [activeTab, setActiveTab] = useState('auctions');
 
@@ -9,8 +13,18 @@ export default function ProfilePage() {
             case 'settings':
                 return (
                     <>
+                        <h2>Налаштування аватару</h2>
+                        <AvatarUploader/>
+                        <Divider/>
+                        <h2>Зміна паролю</h2>
+                        <ResetPassword/>
+                        <Divider/>
+                        <h2>Зміна електоронної пошти</h2>
+                        <ChangeEmail/>
+                        <Divider/>
                         <h2>Налаштування профілю</h2>
-                        <UpdateProfileForm />
+                        <UpdateProfileForm/>
+
                     </>
                 );
             case 'auctions':

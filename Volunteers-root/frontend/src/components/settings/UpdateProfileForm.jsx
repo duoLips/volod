@@ -239,6 +239,25 @@ export default function UpdateProfileForm() {
                     Зберегти
                 </Button>
             </Form.Item>
+            <Button
+                danger
+                type="primary"
+                onClick={async () => {
+                    const confirmed = window.confirm('Ви впевнені, що хочете видалити профіль?');
+                    if (!confirmed) return;
+
+                    try {
+                        await API.delete('/users/me');
+                        message.success('Профіль успішно видалено');
+                        window.location.href = '/'; // or your login page
+                    } catch (err) {
+                        const msg = err.response?.data?.message;
+                        message.error(msg || 'Не вдалося видалити профіль');
+                    }
+                }}
+            >
+                Видалити профіль
+            </Button>
         </Form>
     );
 }

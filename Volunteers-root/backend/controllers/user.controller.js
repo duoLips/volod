@@ -3,6 +3,8 @@ const { usernameExists, getUserById, updateUserProfile, getAllUsers, banUser, un
 const { isValidUsername, isValidPassword, isValidEmail } = require('../utils/validation.helper');
 const {  uploadImageFromBuffer  } = require('../utils/cloudinary.helper')
 const db = require('../models/db');
+const { generateOTP, validateOTP } = require('../services/otp.service')
+
 async function checkUsername(req, res, next) {
     const { username } = req.params;
 
