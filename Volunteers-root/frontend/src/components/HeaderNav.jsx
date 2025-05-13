@@ -66,7 +66,7 @@ function HeaderNav() {
                     items={[{label: <Link to="/about">Про нас</Link>, key: 'about'}, {
                         label: <Link to="/news">Новини</Link>, key: 'news'
                     }, {
-                        label: 'Аукціони ⌄',
+                        label: <Link to="/auctions">Аукціони ⌄</Link>,
                         key: 'auctions',
                         children: [{label: <Link to="/auctions/current">Поточні</Link>, key: 'current'}, {
                             label: <Link to="/auctions/closed">Завершені</Link>, key: 'closed'

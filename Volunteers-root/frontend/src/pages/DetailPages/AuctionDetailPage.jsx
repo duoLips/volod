@@ -1,8 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import API from '../api/axios';
+import API from '../../api/axios.js';
 import dayjs from 'dayjs';
 import { Typography, Spin, Alert, Image, Tag } from 'antd';
+import CommentsSection from "../../components/CommentsSection.jsx";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -52,6 +53,7 @@ function AuctionDetailPage() {
                     🏆 Переможець: <Text strong>{data.winner_label}</Text>
                 </Paragraph>
             )}
+            <CommentsSection entityType="auction" entityId={id} />
 
         </div>
     );

@@ -21,7 +21,7 @@ function LayoutWrapper() {
                 <HeaderNav onLoginClick={() => console.log('open login modal')} />
             </Header>
 
-            <Content style={{ padding: '24px', maxWidth: 1200, margin: '0 auto',  }}>
+            <Content style={{ maxWidth: 1200, margin: '0 auto',  }}>
                 <Outlet />
             </Content>
 

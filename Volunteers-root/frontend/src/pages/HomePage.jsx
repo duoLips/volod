@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { testConnection } from '../api/test';
+import { testConnection } from '../api/test.js';
 import { Typography, Spin, Alert } from 'antd';
 import ReportsList from '../components/ReportsList.jsx';
 import AuctionsList from '../components/AuctionsList.jsx';
