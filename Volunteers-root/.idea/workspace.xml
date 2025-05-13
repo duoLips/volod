@@ -4,16 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="avatar update, change pass, change email">
+    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="i  forgor">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/AddArticleForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/CommentsSection.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ArticlePages/AuctionsPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/GalleryPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/comment.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/comment.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/comments.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/comments.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/comment.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/comment.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ArticleListPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/settings/ProfileComments.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/modals/LoginModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/modals/LoginModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AuctionDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AuctionDetailPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ProfilePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ProfilePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/HeaderNav.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HeaderNav.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layouts/LayoutWrapper.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layouts/LayoutWrapper.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AuctionDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DetailPages/AuctionDetailPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AuctionsPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/NewsDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DetailPages/NewsDetailPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/NewsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ArticlePages/NewsPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ReportDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DetailPages/ReportDetailPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ReportsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ArticlePages/ReportsPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +90,9 @@
       <recent name="$PROJECT_DIR$/frontend/src/pages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/pages/ArticlePages" />
+      <recent name="$PROJECT_DIR$/frontend/src/pages/DetailPages" />
+      <recent name="$PROJECT_DIR$/frontend/src/pages" />
       <recent name="$PROJECT_DIR$/frontend/src/components/layouts" />
       <recent name="$PROJECT_DIR$/frontend/src/components/modals" />
     </key>
@@ -104,7 +116,7 @@
       <workItem from="1744679367916" duration="123000" />
       <workItem from="1744816942772" duration="1569000" />
       <workItem from="1744823500159" duration="18353000" />
-      <workItem from="1745449065276" duration="97672000" />
+      <workItem from="1745449065276" duration="109888000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />
@@ -266,7 +278,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746981125680</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="i  forgor">
+      <option name="closed" value="true" />
+      <created>1746983743093</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1746983743094</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -288,6 +308,7 @@
     <MESSAGE value="workiiiin" />
     <MESSAGE value="fucking update prfile" />
     <MESSAGE value="avatar update, change pass, change email" />
-    <option name="LAST_COMMIT_MESSAGE" value="avatar update, change pass, change email" />
+    <MESSAGE value="i  forgor" />
+    <option name="LAST_COMMIT_MESSAGE" value="i  forgor" />
   </component>
 </project>
