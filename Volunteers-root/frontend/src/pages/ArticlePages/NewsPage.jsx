@@ -1,7 +1,7 @@
 import ContentPageLayout from '../../components/layouts/ContentPageLayout.jsx';
 import NewsList from '../../components/NewsList.jsx';
 import {Button, Modal} from "antd";
-import AddArticleForm from "../../components/AddArticleForm.jsx";
+import ArticleForm from "../../components/ArticleForm.jsx";
 import {useSession} from "../../context/SessionProvider.jsx";
 import {useState} from "react";
 
@@ -24,7 +24,12 @@ function NewsPage() {
                         footer={null}
                         destroyOnClose
                     >
-                        <AddArticleForm type="news" onSuccess={() => setOpen(false)} />
+                        <ArticleForm
+                            type="news"
+                            mode="create"
+                            active={open}
+                            onSuccess={() => setOpen(false)}
+                        />
                     </Modal>
                 </>
             )}

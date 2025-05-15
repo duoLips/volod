@@ -32,7 +32,6 @@ async function getAllAuctions({ limit = 10, page = 1, search = '', status = 'all
 
     const whereSQL = whereClauses.join(' AND ');
 
-    // Final query params: LIMIT, OFFSET, ...search
     const finalParams = [limit, offset, ...params];
 
     const dataQuery = await db.query(
@@ -84,12 +83,12 @@ async function deleteAuction(id) {
 async function assignAuctionWinner(auctionId, userId, label) {
     if (userId) {
         await db.query(
-            `UPDATE auctions SET winner_id = $1, winner_label = $2 status = 'closed' WHERE id = $3`,
+            `UPDATE auctions SET winner_id = $1, winner_label = $2, status = false WHERE id = $3`,
             [userId, label, auctionId]
         );
     } else {
         await db.query(
-            `UPDATE auctions SET winner_id = NULL, winner_label = $1 status = 'closed' WHERE id = $2`,
+            `UPDATE auctions SET winner_id = NULL, winner_label = $1, status = false WHERE id = $2`,
             [label, auctionId]
         );
     }

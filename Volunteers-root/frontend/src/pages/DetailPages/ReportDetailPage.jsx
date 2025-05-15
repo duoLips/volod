@@ -3,13 +3,19 @@ import { useQuery } from '@tanstack/react-query';
 import API from '../../api/axios.js';
 import CommentsSection from "../../components/CommentsSection.jsx";
 import dayjs from 'dayjs';
-import { Typography, Spin, Alert, Image } from 'antd';
+import {Typography, Spin, Alert, Image, Modal, Button} from 'antd';
+import ArticleForm from "../../components/ArticleForm.jsx";
+import DeleteArticleButton from "../../components/DeleteArticleButton.jsx";
+import {useSession} from "../../context/SessionProvider.jsx";
+import {useState} from "react";
 
 const { Title, Paragraph } = Typography;
 
 function ReportDetailPage() {
     const { id } = useParams();
-
+    const { session } = useSession();
+    const [open, setOpen] = useState(false);
+    const isAdmin = session?.user?.role === 1;
     const { data, isLoading, isError } = useQuery({
         queryKey: ['report', id],
         queryFn: () => API.get(`/reports/${id}`).then(res => res.data),
@@ -22,6 +28,31 @@ function ReportDetailPage() {
 
     return (
         <div>
+            {isAdmin && (
+                <>
+
+                    <Button type="primary" onClick={() => setOpen(true)} style={{ marginTop: 24 }}>
+                        Редагувати звіт
+                    </Button>
+                    <DeleteArticleButton articleId={id} type="reports" />
+                    <Modal
+                        title="Редагуваання"
+                        open={open}
+                        onCancel={() => setOpen(false)}
+                        footer={null}
+                        destroyOnClose
+                    >
+                        <ArticleForm
+                            type="reports"
+                            mode="edit"
+                            articleId={data.id}
+                            initialData={data}
+                            active={open}
+                            onSuccess={() => setOpen(false)}
+                        />
+                    </Modal>
+                </>
+            )}
             <Title>{data.title}</Title>
             {data.img_path && (
                 <Image

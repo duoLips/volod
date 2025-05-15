@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Modal } from 'antd';
 import ContentPageLayout from '../../components/layouts/ContentPageLayout.jsx';
 import AuctionsList from "../../components/AuctionsList.jsx";
-import AddArticleForm from "../../components/AddArticleForm.jsx";
+import ArticleForm from "../../components/ArticleForm.jsx";
 import { useSession } from '../../context/SessionProvider.jsx';
 
 function AuctionsPage() {
@@ -25,7 +25,12 @@ function AuctionsPage() {
                         footer={null}
                         destroyOnClose
                     >
-                        <AddArticleForm type="auction" onSuccess={() => setOpen(false)} />
+                        <ArticleForm
+                            type="auctions"
+                            mode="create"
+                            active={open}
+                            onSuccess={() => setOpen(false)}
+                        />
                     </Modal>
                 </>
             )}

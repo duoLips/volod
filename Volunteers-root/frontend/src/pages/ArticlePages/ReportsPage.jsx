@@ -3,7 +3,7 @@ import ReportsList from "../../components/ReportsList.jsx";
 import {useSession} from "../../context/SessionProvider.jsx";
 import {useState} from "react";
 import {Button, Modal} from "antd";
-import AddArticleForm from "../../components/AddArticleForm.jsx";
+import ArticleForm from "../../components/ArticleForm.jsx";
 
 function ReportsPage() {
     const { session } = useSession();
@@ -24,7 +24,12 @@ function ReportsPage() {
                         footer={null}
                         destroyOnClose
                     >
-                        <AddArticleForm type="report" onSuccess={() => setOpen(false)} />
+                        <ArticleForm
+                        type="reports"
+                        mode="create"
+                        active={open}
+                        onSuccess={() => setOpen(false)}
+                    />
                     </Modal>
                 </>
             )}
