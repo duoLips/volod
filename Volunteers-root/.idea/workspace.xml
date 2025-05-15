@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="nwe articlles, galleery, errrr">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/DeleteArticleButton.jsx" afterDir="false" />
+    <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="edit article, select winner, TODO restore acc modal">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/auction.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/auction.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/AddArticleForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ArticleForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ArticlePages/AuctionsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ArticlePages/AuctionsPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ArticlePages/NewsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ArticlePages/NewsPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ArticlePages/ReportsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ArticlePages/ReportsPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/DetailPages/AuctionDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DetailPages/AuctionDetailPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/DetailPages/NewsDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DetailPages/NewsDetailPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/DetailPages/ReportDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DetailPages/ReportDetailPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/modals/LoginModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/modals/LoginModal.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +100,7 @@
       <workItem from="1744679367916" duration="123000" />
       <workItem from="1744816942772" duration="1569000" />
       <workItem from="1744823500159" duration="18353000" />
-      <workItem from="1745449065276" duration="121432000" />
+      <workItem from="1745449065276" duration="123067000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />
@@ -295,7 +286,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747164437813</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="edit article, select winner, TODO restore acc modal">
+      <option name="closed" value="true" />
+      <created>1747338503533</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1747338503533</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -319,6 +318,7 @@
     <MESSAGE value="avatar update, change pass, change email" />
     <MESSAGE value="i  forgor" />
     <MESSAGE value="nwe articlles, galleery, errrr" />
-    <option name="LAST_COMMIT_MESSAGE" value="nwe articlles, galleery, errrr" />
+    <MESSAGE value="edit article, select winner, TODO restore acc modal" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit article, select winner, TODO restore acc modal" />
   </component>
 </project>
