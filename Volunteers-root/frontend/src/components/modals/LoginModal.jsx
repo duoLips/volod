@@ -1,13 +1,10 @@
-import { Modal, Form, Input, Button, Typography, Alert } from 'antd';
+import { Modal, Form, Input, Button, Alert } from 'antd';
 import { useState } from 'react';
 import API from '../../api/axios.js';
-import { useQueryClient } from '@tanstack/react-query';
 import { useSession } from '../../context/SessionProvider.jsx';
 
-const { Title } = Typography;
 
 export default function LoginModal({ open, onClose, onOpenRegister }) {
-    const queryClient = useQueryClient();
     const [form] = Form.useForm();
     const [mode, setMode] = useState('otp'); // 'otp' or 'password'
     const [step, setStep] = useState('input'); // 'input', 'verify', or 'deleted'
@@ -85,37 +82,6 @@ const handlePasswordLogin = async () => {
         setLoading(false);
     }
 };
-
-const handleRequestRestoreOtp = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-        await API.post('/auth/request-restore-otp', { email: deletedEmail });
-        setRestoreStep('verify');
-    } catch (err) {
-        setError(err.response?.data?.message || 'Не вдалося надіслати код');
-    } finally {
-        setLoading(false);
-    }
-};
-
-const handleRestoreVerify = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-        await API.post('/auth/restore', {
-            email: deletedEmail,
-            code: restoreCode,
-        });
-        await refetchSession();
-        onClose();
-    } catch (err) {
-        setError(err.response?.data?.message || 'Невірний код');
-    } finally {
-        setLoading(false);
-    }
-};
-
 return (
     <Modal title="Вхід" open={open} onCancel={onClose} footer={null}>
         <Form form={form} layout="vertical">
