@@ -66,7 +66,7 @@ function ReportDetailPage() {
             <div style={{ marginTop: 20, color: 'gray' }}>
                 Опубліковано: {dayjs(data.created_at).format('DD.MM.YYYY HH:mm')}
             </div>
-            <PollSection entityType="reports" entityId={id} />
+            <PollSection entityType="report" entityId={id} />
             <CommentsSection entityType="report" entityId={id} />
         </div>
     );

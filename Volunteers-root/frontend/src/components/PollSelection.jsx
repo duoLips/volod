@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSession } from '../context/SessionProvider.jsx';
 import { Card, Radio, Button, Typography, Space, message } from 'antd';
 import API from '../api/axios';
 
@@ -9,7 +10,7 @@ export default function PollSection({ entityType, entityId }) {
     const [selected, setSelected] = useState(null);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
-
+    const { session } = useSession();
     const fetchPoll = async () => {
         setLoading(true);
         try {
@@ -72,15 +73,16 @@ export default function PollSection({ entityType, entityId }) {
                             </Radio>
                         ))}
                     </Radio.Group>
-                    <Button
-                        type="primary"
-                        onClick={handleVote}
-                        disabled={!selected}
-                        loading={submitting}
-                        style={{ marginTop: 12 }}
-                    >
-                        Проголосувати
-                    </Button>
+                    {session?.authenticated && (
+                        <Button
+                            type="link"
+                            size="small"
+                            onClick={() => handleVote(option.id)}
+                            disabled={poll.userVote !== null}
+                        >
+                            Голосувати
+                        </Button>
+                    )}
                 </>
             )}
         </Card>

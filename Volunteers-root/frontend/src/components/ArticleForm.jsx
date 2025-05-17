@@ -136,7 +136,7 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
 
                     if (pollValues.pollTitle?.trim() && validOptions.length >= 2) {
                         await API.post('/poll/create', {
-                            entityType: type.slice(0, -1),
+                            entityType: type,
                             entityId: res.data.id,
                             question: pollValues.pollTitle,
                             options: validOptions

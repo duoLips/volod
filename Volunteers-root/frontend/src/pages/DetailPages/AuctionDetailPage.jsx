@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import API from '../../api/axios.js';
 import dayjs from 'dayjs';
 import {
-    Typography, Spin, Alert, Image, Tag, Modal, Button, Form, Select, Input, Space, message, AutoComplete
+    Typography, Spin, Alert, Image, Tag, Modal, Button, Form, Space, message, AutoComplete
 } from 'antd';
 import CommentsSection from "../../components/CommentsSection.jsx";
 import ArticleForm from "../../components/ArticleForm.jsx";
@@ -166,7 +166,7 @@ function AuctionDetailPage() {
                     🏆 Переможець: <Text strong>{data.winner_label}</Text>
                 </Paragraph>
             )}
-            <PollSection entityType="auctions" entityId={id} />
+            <PollSection entityType="auction" entityId={id} />
             <CommentsSection entityType="auction" entityId={id} />
         </div>
     );
