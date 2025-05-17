@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import ProfileSidebar from '../components/ProfileSidebar';
 import UpdateProfileForm from "../components/settings/UpdateProfileForm.jsx";
 import AvatarUploader from "../components/settings/AvatarUploader.jsx"
@@ -6,8 +6,9 @@ import ResetPassword from '../components/settings/ResetPassword.jsx'
 import {Divider} from "antd";
 import ChangeEmail from "../components/settings/ChangeEmail.jsx";
 import ProfileComments from "../components/settings/ProfileComments.jsx";
+import AdminPanel from "../components/admin/AdminPanel.jsx"
 export default function ProfilePage() {
-    const [activeTab, setActiveTab] = useState('auctions');
+    const [activeTab, setActiveTab] = useState('settings');
 
     const renderContent = () => {
         switch (activeTab) {
@@ -34,8 +35,12 @@ export default function ProfilePage() {
                 return <>
                 <ProfileComments/>
                 </>;
-            case 'stats':
-                return <h2>Статистика</h2>;
+            case 'admin':
+                return(
+                <>
+                    <h2>Адмін-панель</h2>
+                    <AdminPanel/>
+                </>);
             default:
                 return null;
         }

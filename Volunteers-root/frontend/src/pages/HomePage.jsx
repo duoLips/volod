@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { testConnection } from '../api/test.js';
-import { Typography, Spin, Alert } from 'antd';
+import { Spin, Alert } from 'antd';
 import ReportsList from '../components/ReportsList.jsx';
 import AuctionsList from '../components/AuctionsList.jsx';
 import MainSection from "../components/MainSection.jsx";
 import NewsList from '../components/NewsList.jsx';
+import ContactForm from "../components/ContactForm.jsx";
 
-
-
-const { Title } = Typography;
 
 function HomePage() {
     const [message, setMessage] = useState(null);
@@ -29,6 +27,7 @@ function HomePage() {
         <ReportsList type="preview" />
         <AuctionsList type="preview" />
         <NewsList type="preview" />
+        <ContactForm />
     </>);
 }
 

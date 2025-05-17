@@ -85,7 +85,6 @@ async function updateUserProfile(id, updates) {
         }
     }
 
-    // Validate phone if updated (simple regex)
     if (updates.phone !== undefined) {
         const phoneRegex = /^\+380\d{9}$/;
         if (!phoneRegex.test(updates.phone)) {
@@ -123,7 +122,7 @@ async function getAllUsers({ limit = 10, page = 1, search = '' }) {
     const searchQuery = `%${search.toLowerCase()}%`;
 
     const dataQuery = await db.query(
-        `SELECT id, username, email, role_id AS role, first_name AS "firstName", last_name AS "lastName", phone, address, created_at, banned_at
+        `SELECT id, username, email, role_id AS role, first_name AS "firstName", last_name AS "lastName", phone, address, created_at, banned_at, deleted_at
          FROM users
          WHERE LOWER(username) LIKE $1 OR LOWER(email) LIKE $1
          ORDER BY created_at DESC

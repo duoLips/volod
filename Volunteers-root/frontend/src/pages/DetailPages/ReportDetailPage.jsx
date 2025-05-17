@@ -8,6 +8,7 @@ import ArticleForm from "../../components/ArticleForm.jsx";
 import DeleteArticleButton from "../../components/DeleteArticleButton.jsx";
 import {useSession} from "../../context/SessionProvider.jsx";
 import {useState} from "react";
+import PollSection from "../../components/PollSelection.jsx";
 
 const { Title, Paragraph } = Typography;
 
@@ -65,6 +66,7 @@ function ReportDetailPage() {
             <div style={{ marginTop: 20, color: 'gray' }}>
                 Опубліковано: {dayjs(data.created_at).format('DD.MM.YYYY HH:mm')}
             </div>
+            <PollSection entityType="reports" entityId={id} />
             <CommentsSection entityType="report" entityId={id} />
         </div>
     );

@@ -39,12 +39,12 @@ export default function ProfileSidebar({ selectedKey, onSelect }) {
                         key: 'comments',
                         label: 'Коментарі',
                     },
-                    // {
-                    //     key: 'stats',
-                    //     label: 'Статистика',
-                    // }
+                    ...(session?.user?.role === 1
+                        ? [{ key: 'admin', label: 'Адмін-панель' }]
+                        : []),
                 ]}
             />
+
 
             <Divider />
 

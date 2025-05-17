@@ -11,7 +11,9 @@ const auctionRoutes = require('./routes/auction.routes')
 const reportRoutes  = require('./routes/reports.routes')
 const userRoutes = require('./routes/user.routes');
 const commRoutes = require('./routes/comments.routes');
-const searchRoutes = require('./routes/search.routes')
+const searchRoutes = require('./routes/search.routes');
+const adminRoutes = require('./routes/admin.routes')
+const pollRoutes = require('./routes/poll.routes')
 const { scheduleOTPCleanup } = require('./utils/otpCleanup.job');
 const { scheduleJarSync } = require('./utils/jarSync.job');
 const { scheduleAuctionAutoClose } = require('./utils/auctionClose.job');
@@ -50,6 +52,8 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/comments', commRoutes);
 app.use('/api/search', searchRoutes)
+app.use('/api/admin', adminRoutes)
+app.use('/api/poll', pollRoutes)
 
 
 app.get('/api/test', (req, res) => {

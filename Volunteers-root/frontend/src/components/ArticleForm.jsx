@@ -1,7 +1,7 @@
 import {
     Form, Input, Button, Select, DatePicker, Upload, message, Typography, Space, Row, Col
 } from 'antd';
-import { UploadOutlined, ReloadOutlined } from '@ant-design/icons';
+import { UploadOutlined, ReloadOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api/axios';
@@ -12,6 +12,8 @@ const { TextArea } = Input;
 export default function ArticleForm({ type, mode = 'create', initialData = {}, articleId, onSuccess, active = false }) {
     const [form] = Form.useForm();
     const [imageUrl, setImageUrl] = useState('');
+    const [showPoll, setShowPoll] = useState(false);
+    const [hasPoll, setHasPoll] = useState(false);
     const [imgError, setImgError] = useState('');
     const [jars, setJars] = useState([]);
     const [auctions, setAuctions] = useState([]);
@@ -32,7 +34,6 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
             setLoadingJars(false);
         }
     };
-
     const refreshJars = async () => {
         setLoadingJars(true);
         try {
@@ -46,8 +47,6 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
             setLoadingJars(false);
         }
     };
-
-
     const fetchAuctions = async () => {
         try {
             const res = await API.get('/auctions');
@@ -56,7 +55,6 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
             message.error('Не вдалося завантажити аукціони');
         }
     };
-
     const isValidUrl = (url) => {
         try {
             new URL(url);
@@ -65,7 +63,6 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
             return false;
         }
     };
-
     const handleImageUpload = async (options) => {
         const { file } = options;
         const altText = form.getFieldValue('alt_text') || '';
@@ -95,7 +92,6 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
             message.error('Помилка при оновленні зображення');
         }
     };
-
     const handleUrlUpload = async () => {
         const altText = form.getFieldValue('alt_text') || '';
 
@@ -122,11 +118,7 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
     };
 
     const handleFinish = async (values) => {
-        const endpoint =
-            type === 'news' ? '/news' :
-                type === 'auctions' ? '/auctions' :
-                    '/reports';
-
+        const endpoint = type === 'news' ? '/news' : type === 'auctions' ? '/auctions' : '/reports';
         const payload = { ...values };
         if (payload.ends_at) payload.ends_at = payload.ends_at.toISOString();
 
@@ -138,6 +130,20 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
                 window.location.reload();
             } else {
                 const res = await API.post(`${endpoint}/new`, payload);
+                if (showPoll) {
+                    const pollValues = form.getFieldsValue(['pollTitle', 'pollOptions']);
+                    const validOptions = (pollValues.pollOptions || []).filter(opt => opt && opt.trim());
+
+                    if (pollValues.pollTitle?.trim() && validOptions.length >= 2) {
+                        await API.post('/poll/create', {
+                            entityType: type.slice(0, -1),
+                            entityId: res.data.id,
+                            question: pollValues.pollTitle,
+                            options: validOptions
+                        });
+                    }
+                }
+
                 message.success('Статтю створено');
                 form.resetFields();
                 setImageUrl('');
@@ -149,7 +155,6 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
             message.error(err.response?.data?.message || 'Помилка збереження');
         }
     };
-
     useEffect(() => {
         if (!active) return;
 
@@ -161,9 +166,14 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
                 ...initialData,
                 ends_at: initialData.ends_at ? dayjs(initialData.ends_at) : null
             });
+
+            API.get(`/poll?entityType=${type.slice(0, -1)}&entityId=${articleId}`)
+                .then(res => {
+                    if (res.data) setHasPoll(true);
+                })
+                .catch(() => setHasPoll(false));
         }
     }, [active]);
-
     return (
         <Form
             layout="vertical"
@@ -256,6 +266,73 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
                     />
                 </Form.Item>
             )}
+            {mode === 'edit' && hasPoll ? (
+                <Form.Item>
+                    <Typography.Text type="warning">
+                        <ExclamationCircleOutlined style={{ marginRight: 6 }} />
+                        Опитування не можна редагувати після створення.
+                    </Typography.Text>
+                </Form.Item>
+            ) : mode === 'create' && (
+                <>
+                    <Form.Item>
+                        <Typography.Text type="warning">
+                            <ExclamationCircleOutlined style={{ marginRight: 6 }} />
+                            Опитування не можна редагувати після створення.
+                        </Typography.Text>
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="dashed" onClick={() => setShowPoll(true)}>
+                            Додати опитування
+                        </Button>
+                    </Form.Item>
+
+                    {showPoll && (
+                        <>
+                            <Form.Item
+                                name="pollTitle"
+                                label="Питання опитування"
+                                rules={[{ required: true, message: 'Введіть питання' }]}
+                            >
+                                <Input placeholder="Ваше питання" />
+                            </Form.Item>
+
+                            <Form.List name="pollOptions" initialValue={['', '']}>
+                                {(fields, { add, remove }) => (
+                                    <>
+                                        {fields.map((field, index) => (
+                                            <Form.Item
+                                                key={field.key}
+                                                label={`Варіант ${index + 1}`}
+                                                style={{ marginBottom: 8 }}
+                                            >
+                                                <Space align="baseline">
+                                                    <Form.Item {...field} noStyle>
+                                                        <Input placeholder={`Варіант ${index + 1}`} />
+                                                    </Form.Item>
+                                                    {fields.length > 2 && (
+                                                        <Button type="link" danger onClick={() => remove(field.name)}>
+                                                            ✕
+                                                        </Button>
+                                                    )}
+                                                </Space>
+                                            </Form.Item>
+                                        ))}
+                                        {fields.length < 5 && (
+                                            <Form.Item>
+                                                <Button type="dashed" onClick={() => add('')}>
+                                                    Додати варіант
+                                                </Button>
+                                            </Form.Item>
+                                        )}
+                                    </>
+                                )}
+                            </Form.List>
+                        </>
+                    )}
+                </>
+            )}
 
             <Form.Item>
                 <Button type="primary" htmlType="submit">
@@ -263,5 +340,4 @@ export default function ArticleForm({ type, mode = 'create', initialData = {}, a
                 </Button>
             </Form.Item>
         </Form>
-    );
-}
+    )}

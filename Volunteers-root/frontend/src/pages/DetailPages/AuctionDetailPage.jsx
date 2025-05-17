@@ -10,6 +10,7 @@ import ArticleForm from "../../components/ArticleForm.jsx";
 import { useSession } from "../../context/SessionProvider.jsx";
 import { useState, useEffect } from "react";
 import DeleteArticleButton from "../../components/DeleteArticleButton.jsx";
+import PollSection from "../../components/PollSelection.jsx";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -165,7 +166,7 @@ function AuctionDetailPage() {
                     🏆 Переможець: <Text strong>{data.winner_label}</Text>
                 </Paragraph>
             )}
-
+            <PollSection entityType="auctions" entityId={id} />
             <CommentsSection entityType="auction" entityId={id} />
         </div>
     );

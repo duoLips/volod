@@ -1,4 +1,5 @@
 const { createComment, listComments, softDeleteComment, getCommentsByUser } = require('../services/comment.service');
+const db = require('../models/db');
 
 async function createCommentEntry(req, res, next) {
     const { entityType, entityId, body, parentId } = req.body;
@@ -70,9 +71,51 @@ async function softDeleteCommentEntry(req, res, next) {
     }
 }
 
+async function listAllComments(req, res, next) {
+    try {
+        const { entityType, username, fromDate, toDate } = req.query;
+
+        let query = `
+            SELECT c.*, u.username, u.first_name, u.last_name
+            FROM comms c
+            LEFT JOIN users u ON c.user_id = u.id
+            WHERE c.deleted_at IS NULL
+        `;
+        const params = [];
+
+        if (entityType) {
+            params.push(entityType);
+            query += ` AND c.entity_type = $${params.length}`;
+        }
+
+        if (username) {
+            params.push(`%${username.toLowerCase()}%`);
+            query += ` AND LOWER(u.username) LIKE $${params.length}`;
+        }
+
+        if (fromDate) {
+            params.push(fromDate);
+            query += ` AND c.created_at >= $${params.length}`;
+        }
+
+        if (toDate) {
+            params.push(toDate);
+            query += ` AND c.created_at <= $${params.length}`;
+        }
+
+        query += ` ORDER BY c.created_at DESC`;
+
+        const { rows } = await db.query(query, params);
+        res.json({ comments: rows });
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     createCommentEntry,
     listCommentsEntry,
     softDeleteCommentEntry,
-    listUserComments
+    listUserComments,
+    listAllComments
 }
