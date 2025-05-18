@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Image, Spin, Typography, Row, Col } from 'antd';
 import API from '../api/axios';
+import Breadcrumbs from "../components/layouts/Breadcrumbs.jsx";
 
 // const fallbackImg =
 //     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAADDCAYAAADQvc6UAAAB';
@@ -27,6 +28,7 @@ export default function Gallery() {
 
     return (
         <div>
+            <Breadcrumbs />
             <Typography.Title level={3}>Галерея</Typography.Title>
 
             {loading ? (

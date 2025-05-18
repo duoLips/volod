@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Button, Modal } from 'antd';
-import ContentPageLayout from '../../components/layouts/ContentPageLayout.jsx';
 import AuctionsList from "../../components/AuctionsList.jsx";
 import ArticleForm from "../../components/ArticleForm.jsx";
 import { useSession } from '../../context/SessionProvider.jsx';
+import Breadcrumbs from "../../components/layouts/Breadcrumbs.jsx";
 
 function AuctionsPage() {
     const { session } = useSession();
@@ -11,7 +11,8 @@ function AuctionsPage() {
     const isAdmin = session?.user?.role === 1;
 
     return (
-        <ContentPageLayout title="Аукціони">
+        <>
+            <Breadcrumbs />
             {isAdmin && (
                 <>
                     <Button type="primary" onClick={() => setOpen(true)} style={{ marginTop: 24 }}>
@@ -35,7 +36,7 @@ function AuctionsPage() {
                 </>
             )}
             <AuctionsList type="full" />
-        </ContentPageLayout>
+        </>
     );
 }
 

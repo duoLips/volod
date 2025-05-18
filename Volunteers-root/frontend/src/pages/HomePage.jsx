@@ -24,9 +24,9 @@ function HomePage() {
     if (error) return <Alert message={error} type="error" showIcon />;
     return (<>
         <MainSection />
-        <ReportsList type="preview" />
-        <AuctionsList type="preview" />
         <NewsList type="preview" />
+        <AuctionsList type="preview" />
+        <ReportsList type="preview"/>
         <ContactForm />
     </>);
 }

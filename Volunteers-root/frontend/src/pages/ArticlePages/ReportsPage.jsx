@@ -1,16 +1,17 @@
-import ContentPageLayout from '../../components/layouts/ContentPageLayout.jsx';
 import ReportsList from "../../components/ReportsList.jsx";
 import {useSession} from "../../context/SessionProvider.jsx";
 import {useState} from "react";
 import {Button, Modal} from "antd";
 import ArticleForm from "../../components/ArticleForm.jsx";
+import Breadcrumbs from "../../components/layouts/Breadcrumbs.jsx";
 
 function ReportsPage() {
     const { session } = useSession();
     const [open, setOpen] = useState(false);
     const isAdmin = session?.user?.role === 1;
     return (
-        <ContentPageLayout title="Звіти">
+        <>
+            <Breadcrumbs />
             {isAdmin && (
                 <>
                     <Button type="primary" onClick={() => setOpen(true)} style={{ marginTop: 24 }}>
@@ -34,7 +35,7 @@ function ReportsPage() {
                 </>
             )}
             <ReportsList type="full" />
-        </ContentPageLayout>
+        </>
     );
 }
 

@@ -24,7 +24,6 @@ function App() {
                 <Route path="/auctions" element={<AuctionsPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/gallery" element={<GalleryPage />} />
-
             </Route>
         </Routes>
     );

@@ -11,6 +11,7 @@ import { useSession } from "../../context/SessionProvider.jsx";
 import { useState, useEffect } from "react";
 import DeleteArticleButton from "../../components/DeleteArticleButton.jsx";
 import PollSection from "../../components/PollSelection.jsx";
+import Breadcrumbs from "../../components/layouts/Breadcrumbs.jsx";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -77,6 +78,7 @@ function AuctionDetailPage() {
 
     return (
         <div>
+            <Breadcrumbs />
             {isAdmin && (
                 <>
                     <Space style={{ marginTop: 24, marginBottom: 16 }}>

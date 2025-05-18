@@ -1,123 +1,122 @@
 import React from 'react';
-import { Row, Col, Collapse } from 'antd';
+import {Row ,Col ,Collapse, Typography, Grid  } from 'antd';
 import image2 from '../assets/image 2.png'
 import image1 from '../assets/Subtract.svg'
 import image3 from '../assets/ЗСУ 1.png'
-const { Panel } = Collapse;
+const { Title, Paragraph } = Typography;
+const {Panel} = Collapse;
+const { useBreakpoint } = Grid;
+
 
 const MainSection = () => {
+    const screens = useBreakpoint();
     return (
-        <div style={{ padding: '3rem 1rem', maxWidth: '1200px', margin: '0 auto',  }}>
-            {/* Title & Top Image */}
-            <Row gutter={[32, 32]} align="middle" justify="space-between">
-                <Col xs={24} md={12}>
-                    <h1 style={{ fontSize: '5.5rem', marginBottom: 0 }}>ПРОСТІР</h1>
-                    <h1 style={{ fontSize: '5.5rem', color: '#0038A8', margin: 0 }}>НЕБАЙДУЖИХ</h1>
-                    <h1 style={{ fontSize: '5.5rem', marginTop: 0 }}>ЛЮДЕЙ</h1>
-                    <p style={{ maxWidth: '500px', marginTop: '1rem' }}>
-                        Веб-ресурс, де кожний може дізнатися про новини і потреби волонтерів і долучитися до допомоги для ЗСУ і інших волонтерських проектів                    </p>
+        <div style={{padding: '3rem 1rem' ,maxWidth: '1200px' ,margin: '0 auto'}}>
+            <Row gutter={[32 ,32]} align="middle" justify="space-between">
+                <Col  xs={{ span: 24, order: 1 }} md={{ span: 13, order: 1 }} style={{ position: 'relative', zIndex: 2 }}>
+                    <Title
+                        level={1}
+                        style={{
+                            fontSize: 'clamp(2.5rem, 8vw, 5rem)',
+                            lineHeight: 1.1,
+                            wordBreak: 'keep-all',
+                            whiteSpace: 'nowrap',
+                            overflowWrap: 'normal',
+
+                        }}
+                    >
+                        <span style={{ display: 'block' }}>ПРОСТІР</span>
+                        <span style={{ display: 'block', color: '#0038A8' }}>НЕБАЙДУЖИХ</span>
+                        <span style={{ display: 'block' }}>ЛЮДЕЙ</span>
+                    </Title>
+                    <Paragraph style={{maxWidth: '500px' ,marginTop: '1rem'}}>
+                        Веб-ресурс, де кожний може дізнатися про новини і потреби волонтерів і долучитися до допомоги
+                        для ЗСУ і інших волонтерських проектів </Paragraph>
                 </Col>
-                {/* Top Image with Decorative Yellow Lines */}
-                <Col xs={24} md={12}>
-                    <div style={{ position: 'relative' }}>
-                        {/* Yellow decorative element behind image, starting from top of screen */}
+                <Col  xs={{ span: 24, order: 2 }} md={{ span: 11, order: 2 }}>
+                    <div style={{position: 'relative'}}>
                         <div
                             style={{
                                 position: 'absolute',
-                                top: '-50vh',
-                                left: 0,
-                                width: '100%',
-                                height: '100%',
-                                pointerEvents: 'none',
+                                top: "-60%",
+                                right: '35%',
+                                width: '400px',
+                                height: '400px',
+                                border: '16px solid #FFD700' ,
                                 zIndex: 0,
                             }}
-                        >
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    right: '20%',
-                                    width: '80%',
-                                    height: '100%',
-                                    border: '16px solid #FFD700'
-                                }}
-                            />
-                        </div>
-
-                        {/* Foreground image */}
+                        />
                         <div
                             style={{
-                                position: 'relative',
-                                zIndex: 1,
-                                margin: '0 auto',
-                                maxWidth: '400px',
+                                position: 'relative' ,
+                                zIndex: 1 ,
+                                margin: '0 auto' ,
+                                maxWidth: '400px' ,
                             }}
                         >
                             <img
                                 src={image1}
                                 alt="Top Decor"
                                 style={{
-                                    width: '110%',
-                                    display: 'block',
-                                    border: '16px solid #0038A8',
+                                    width: '100%' ,
+                                    display: 'block' ,
+                                    border: '16px solid #0038A8' ,
 
                                 }}
                             />
                         </div>
                     </div>
                 </Col>
-
-
             </Row>
-
-            {/* About Us Section */}
-            <Row gutter={[32, 32]} align="top" style={{ marginTop: '4rem' }}>
-                <Col xs={24} md={12}>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-40px' }}>
-                        <div style={{ border: '8px solid #FFD700', padding: '8px', maxWidth: '400px' }}>
+            <Row gutter={[32 ,32]} align="middle"  style={{marginTop: '4rem'}}>
+                <Col xs={{ span: 24, order: 4 }} md={{ span: 12, order: 3 }}>
+                    <div style={{display: 'flex' ,justifyContent: 'center' ,marginTop: screens.md ? '-40px' : '1.5rem'}}>
+                        <div style={{border: '8px solid #FFD700' ,padding: '8px' ,maxWidth: '400px'}}>
                             <img
                                 src={image2}
                                 alt="Soldier"
-                                style={{ width: '100%', display: 'block' }}
+                                style={{width: '100%' ,display: 'block'}}
                             />
                         </div>
                     </div>
                 </Col>
-                <Col xs={24} md={12}>
-                    <h2>Про Нас</h2>
-                    <p>
+                <Col xs={{ span: 24, order: 3 }} md={{ span: 12, order: 3 }}>
+                    <Title level={2} id="about">Про Нас</Title>
+                    <Paragraph>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor.
-                        Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-                        Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
-                    </p>
+                        Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                        mus.
+                        Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis
+                        enim.
+                    </Paragraph>
                 </Col>
             </Row>
-            {/* FAQ Section */}
-            <Row gutter={[32, 32]} style={{ marginTop: '4rem' }} align="top">
-                {/* FAQ on left */}
-                <Col xs={24} md={12}>
-                    <h2>FAQ</h2>
-                    <Collapse accordion>
+            <Row gutter={[32 ,32]} align="middle" style={{marginTop: '4rem'}} >
+                <Col xs={{ span: 24, order: 5 }} md={{ span: 12, order: 5 }}>
+                    <Title level={2}>FAQ</Title>
+                    <Collapse  accordion
+                               bordered={false}
+                               expandIconPosition="right"
+                               style={{ backgroundColor: 'transparent' }}
+                    >
                         <Panel header="Lorem ipsum dolor sit amet, consectetur adipiscing elit?" key="1">
-                            <p>Answer to the first FAQ question goes here.</p>
+                            <Paragraph>Answer to the first FAQ question goes here.</Paragraph>
                         </Panel>
                         <Panel header="Lorem ipsum dolor sit amet, consectetur adipiscing elit?" key="2">
-                            <p>Answer to the second FAQ question goes here.</p>
+                            <Paragraph>Answer to the second FAQ question goes here.</Paragraph>
                         </Panel>
                         <Panel header="Lorem ipsum dolor sit amet, consectetur adipiscing elit?" key="3">
-                            <p>Answer to the third FAQ question goes here.</p>
+                            <Paragraph>Answer to the third FAQ question goes here.</Paragraph>
                         </Panel>
                     </Collapse>
                 </Col>
-
-                {/* Image on right */}
-                <Col xs={24} md={12}>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-40px' }}>
-                        <div style={{ border: '8px solid #0038A8', padding: '8px', maxWidth: '400px' }}>
+                <Col xs={{ span: 24, order: 6 }} md={{ span: 12, order: 6 }}>
+                    <div style={{display: 'flex' ,justifyContent: 'center' ,marginTop: screens.md ? '-40px' : '1.5rem'}}>
+                        <div style={{border: '8px solid #0038A8' ,padding: '8px' ,maxWidth: '400px'}}>
                             <img
                                 src={image3}
                                 alt="Bottom Image"
-                                style={{ width: '100%', display: 'block' }}
+                                style={{width: '100%' ,display: 'block'}}
                             />
                         </div>
                     </div>

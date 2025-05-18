@@ -1,0 +1,9 @@
+.ant-menu-horizontal > .ant-menu-item::after,
+.ant-menu-horizontal > .ant-menu-submenu::after {
+    bottom: 10px !important; /* lift it higher */
+}
+
+
+html {
+    scroll-behavior: smooth;
+}

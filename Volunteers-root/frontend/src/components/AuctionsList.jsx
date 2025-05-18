@@ -10,13 +10,29 @@ import {
     Col,
     Spin,
     Alert,
-    Image
+    Image,
 } from 'antd';
 import { Link, useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import PaginationControl from '../components/PaginationControl';
 
 const { Title, Paragraph, Text } = Typography;
+
+function PreviewCardBackground() {
+    return (
+        <div
+            style={{
+                position: 'absolute',
+                inset: 0,
+                background: '#0F3E9833',
+                borderRadius: 0,
+                zIndex: 0,
+                top: '20%',
+                bottom: '-15%',
+            }}
+        />
+    );
+}
 
 function AuctionsList({ type = 'preview' }) {
     const isPreview = type === 'preview';
@@ -28,8 +44,9 @@ function AuctionsList({ type = 'preview' }) {
     const { data, isLoading, isError, isFetching } = useQuery({
         queryKey: ['auctions-grid', type, status, currentPage],
         queryFn: () =>
-            API.get(`/auctions?page=${currentPage}&limit=${limit}${status !== 'all' ? `&status=${status}` : ''}`)
-                .then(res => res.data),
+            API.get(`/auctions?page=${currentPage}&limit=${limit}${status !== 'all' ? `&status=${status}` : ''}`).then(
+                res => res.data
+            ),
         keepPreviousData: true,
     });
 
@@ -48,60 +65,100 @@ function AuctionsList({ type = 'preview' }) {
     ];
 
     return (
-        <div style={{ padding: isPreview ? '40px 0' : '40px 0 80px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-                <Title level={3}>Аукціони</Title>
-                {isPreview && <Link to="/auctions">Дивитися всі</Link>}
-            </div>
+        <div
+            style={{
+                padding: isPreview ? '40px 0' : '40px 0 80px',
+                ...(isPreview
+                    ? {}
+                    : {
+                        display: 'flex',
+                        flexDirection: 'column',
+                        minHeight: 'calc(100vh - 64px - 80px)',
+                    }),
+            }}
+        >
+            <div style={{ flexGrow: isPreview ? 'unset' : 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24, alignItems: 'baseline' }}>
+                    <Title level={2} style={{ fontSize: 'clamp(0.5rem, 8vw, 1.5rem)', margin: 0 }}>Аукціони</Title>
+                    {isPreview && (
+                        <Link to="/auctions" style={{ fontSize: 'clamp(0.5rem, 8vw, 1.5rem)', color: '#0038A8' }}>
+                            Всі аукціони ↗
+                        </Link>
+                    )}
+                </div>
 
-            <Radio.Group
-                options={statusOptions}
-                onChange={e => {
-                    setSearchParams({ page: 1 });
-                    setStatus(e.target.value);
-                }}
-                value={status}
-                optionType="button"
-                buttonStyle="solid"
-                style={{ marginBottom: 24 }}
-            />
+                <Radio.Group
+                    options={statusOptions}
+                    onChange={e => {
+                        if (!isPreview) setSearchParams({ page: 1 });
+                        setStatus(e.target.value);
+                    }}
+                    value={status}
+                    optionType="button"
+                    buttonStyle="solid"
+                    style={{ marginBottom: 24 }}
+                />
 
-            {isLoading ? (
-                <Spin />
-            ) : isError ? (
-                <Alert message="Помилка при завантаженні аукціонів" type="error" showIcon />
-            ) : !auctionData.length ? (
-                <Alert message="Немає аукціонів для показу" type="info" showIcon />
-            ) : (
-                <>
-                    <Row
-                        gutter={[16, 16]}
-                        justify={isPreview && auctionData.length < 4 ? 'center' : 'start'}
-                    >
+                {isLoading ? (
+                    <Spin />
+                ) : isError ? (
+                    <Alert message="Помилка при завантаженні аукціонів" type="error" showIcon />
+                ) : !auctionData.length ? (
+                    <Alert message="Немає аукціонів для показу" type="info" showIcon />
+                ) : (
+                    <Row gutter={[16, 16]} justify={isPreview && auctionData.length < 4 ? 'center' : 'start'}>
                         {auctionData.map(auction => (
-                            <Col xs={24} sm={isPreview ? 12 : 24} md={isPreview ? 6 : 12} key={auction.id}>
-                                <Link to={`/auctions/${auction.id}`} style={{ color: 'inherit' }}>
+                            <Col
+                                xs={24}
+                                sm={isPreview ? 12 : 24}
+                                md={isPreview ? 6 : 12}
+                                key={auction.id}
+                                style={isPreview ? { position: 'relative' } : {}}
+                            >
+                                {isPreview && <PreviewCardBackground />}
+                                <Link to={`/auctions/${auction.id}`} style={{ color: 'inherit', position: 'relative', zIndex: 1 }}>
                                     {isPreview ? (
                                         <Card
                                             hoverable
+                                            bordered={false}
+                                            bodyStyle={{
+                                                padding: 12,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                height: '100%',
+                                            }}
+                                            style={{
+                                                boxShadow: 'none',
+                                                marginBottom: 12,
+                                                height: 280,
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                            }}
                                             cover={
-                                                <img
-                                                    src={auction.img_path}
-                                                    alt={auction.alt_text || 'auction image'}
-                                                    style={{ height: 180, objectFit: 'cover' }}
-                                                />
+                                                <div style={{ overflow: 'hidden', height: 120, borderRadius: 4 }}>
+                                                    <img
+                                                        src={auction.img_path}
+                                                        alt={auction.alt_text || 'auction image'}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover',
+                                                        }}
+                                                    />
+                                                </div>
                                             }
                                         >
-                                            <Text type="secondary">
-                                                Завершення: {dayjs(auction.ends_at).format('DD.MM.YYYY')}
-                                            </Text>
-                                            <Paragraph style={{ marginTop: 8 }}>
-                                                <strong>{auction.title}</strong>
-                                            </Paragraph>
-                                            <Paragraph>🎁 Приз: {auction.prize}</Paragraph>
-                                            <Tag color={auction.status ? 'green' : 'red'}>
-                                                {auction.status ? 'Відкритий' : 'Завершений'}
-                                            </Tag>
+                                            <div style={{ flexGrow: 1 }}>
+                                                <Paragraph style={{ fontWeight: 600, fontSize: 18, marginBottom: 4 }}>
+                                                    {auction.title}
+                                                </Paragraph>
+                                                <div style={{ fontSize: 14, color: '#444' }}>
+                                                    {auction.body?.length > 50 ? auction.body.slice(0, 50) + '...' : auction.body}
+                                                </div>
+                                            </div>
+                                            <div style={{ fontSize: 12, color: 'gray', marginTop: 'auto' }}>
+                                                {dayjs(auction.created_at).format('DD.MM.YYYY')}
+                                            </div>
                                         </Card>
                                     ) : (
                                         <div style={{ display: 'flex', gap: 16 }}>
@@ -110,7 +167,7 @@ function AuctionsList({ type = 'preview' }) {
                                                 alt={auction.alt_text || 'auction'}
                                                 width={160}
                                                 height={100}
-                                                style={{ objectFit: 'cover', borderRadius: 4 }}
+                                                style={{ objectFit: 'cover' }}
                                             />
                                             <div style={{ flexGrow: 1, borderBottom: '1px solid #ccc', paddingBottom: 8 }}>
                                                 <div style={{ fontSize: 12, color: 'gray', marginBottom: 4 }}>
@@ -132,17 +189,19 @@ function AuctionsList({ type = 'preview' }) {
                             </Col>
                         ))}
                     </Row>
+                )}
+            </div>
 
-                    {!isPreview && (
-                        <PaginationControl
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onChangePage={(page) => setSearchParams({ page })}
-                            onLoadMore={handleLoadMore}
-                            isLoading={isFetching}
-                        />
-                    )}
-                </>
+            {!isPreview && (
+                <div style={{ marginTop: 32 }}>
+                    <PaginationControl
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onChangePage={page => setSearchParams({ page })}
+                        onLoadMore={handleLoadMore}
+                        isLoading={isFetching}
+                    />
+                </div>
             )}
         </div>
     );

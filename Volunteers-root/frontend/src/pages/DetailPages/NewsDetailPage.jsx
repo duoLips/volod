@@ -9,6 +9,7 @@ import {useSession} from "../../context/SessionProvider.jsx";
 import {useState} from "react";
 import DeleteArticleButton from "../../components/DeleteArticleButton.jsx";
 import PollSection from "../../components/PollSelection.jsx";
+import Breadcrumbs from "../../components/layouts/Breadcrumbs.jsx";
 
 const { Title, Paragraph } = Typography;
 
@@ -29,6 +30,9 @@ function NewsDetailPage() {
 
     return (
         <div>
+            <Breadcrumbs />
+            {isAdmin && (
+                <>
             <Button type="primary" onClick={() => setOpen(true)} style={{ marginTop: 24 }}>
                 Редагувати новину
             </Button>
@@ -50,6 +54,7 @@ function NewsDetailPage() {
                     onSuccess={() => setOpen(false)}
                 />
             </Modal>
+            </> )}
             <Title>{data.title}</Title>
             {data.img_path && (
                 <Image

@@ -21,18 +21,6 @@ function PaginationControl({
                     onChange={onChangePage}
                 />
             </div>
-            {showLoadMore && currentPage < totalPages && (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button
-                        onClick={onLoadMore}
-                        size="large"
-                        loading={isLoading}
-                        icon={<span style={{ fontWeight: 'bold' }}>↻</span>}
-                    >
-                        Завантажити ще
-                    </Button>
-                </div>
-            )}
         </div>
     );
 }

@@ -9,6 +9,7 @@ import DeleteArticleButton from "../../components/DeleteArticleButton.jsx";
 import {useSession} from "../../context/SessionProvider.jsx";
 import {useState} from "react";
 import PollSection from "../../components/PollSelection.jsx";
+import Breadcrumbs from "../../components/layouts/Breadcrumbs.jsx";
 
 const { Title, Paragraph } = Typography;
 
@@ -29,6 +30,7 @@ function ReportDetailPage() {
 
     return (
         <div>
+            <Breadcrumbs />
             {isAdmin && (
                 <>
 
