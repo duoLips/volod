@@ -7,7 +7,8 @@ import RegisterModal from './modals/RegisterModal.jsx';
 import LoginModal from './modals/LoginModal.jsx';
 import API from '../api/axios';
 import { useSession } from '../context/SessionProvider';
-import '../header-lift-hover.css'
+import '../header-lift-hover.css';
+
 const { Search } = Input;
 const { useBreakpoint } = Grid;
 
@@ -19,6 +20,7 @@ function HeaderNav() {
     const navigate = useNavigate();
     const { session } = useSession();
     const screens = useBreakpoint();
+    const isMobile = !screens.md;
 
     const handleLogout = async () => {
         await API.post('/auth/logout');
@@ -36,30 +38,42 @@ function HeaderNav() {
         ],
     };
 
+    const userMenuItems = session?.authenticated
+        ? isMobile
+            ? [
+                { key: 'profile', label: <Link to="/profile">Особистий кабінет</Link> },
+                { key: 'logout', label: <span onClick={handleLogout}>Вихід</span> }
+            ]
+            : [
+                {
+                    key: 'auth',
+                    label: (
+                        <Dropdown menu={userDropdown}>
+                            <span style={{ cursor: 'pointer' }}>
+                                <Avatar src={session.user.avatar_url} size="small" />
+                            </span>
+                        </Dropdown>
+                    )
+                }
+            ]
+        : [
+            {
+                key: 'auth',
+                label: (
+                    <Button icon={<UserOutlined />} onClick={() => setLoginOpen(true)}>
+                        Вхід
+                    </Button>
+                )
+            }
+        ];
+
     const menuItems = [
         { label: <Link to="/news">Новини</Link>, key: 'news' },
         { label: <Link to="/auctions">Аукціони</Link>, key: 'auctions' },
         { label: <Link to="/reports">Звіти</Link>, key: 'reports' },
         { label: <Link to="/gallery">Галерея</Link>, key: 'gallery' },
-        { label: <a href="#contact">Контакти</a>, key: 'contact' },
-        {
-            key: 'auth',
-            label: session?.authenticated ? (
-                <Dropdown menu={userDropdown}>
-                    <span style={{ cursor: 'pointer' }}>
-                        <Avatar
-                            src={session.user.avatar_url}
-                            size="small"
-                        />
-                        {/*{session.user.username ||*/}
-                        {/*    `${session.user.firstName || ''} ${session.user.lastName || ''}`.trim() ||*/}
-                        {/*    'Користувач'}*/}
-                    </span>
-                </Dropdown>
-            ) : (
-                <Button icon={<UserOutlined />} onClick={() => setLoginOpen(true)}>Вхід</Button>
-            ),
-        },
+        { label: <a href="/#contact">Контакти</a>, key: 'contact' },
+        ...userMenuItems,
     ];
 
     return (
@@ -82,7 +96,7 @@ function HeaderNav() {
                     color: '#0F3E98',
                     textDecoration: 'none',
                     whiteSpace: 'nowrap',
-                    paddingLeft: "16px"
+                    paddingLeft: '16px',
                 }}
             >
                 <img src={Logo} alt="Logo" style={{ height: 32 }} />
@@ -90,14 +104,15 @@ function HeaderNav() {
             </Link>
 
             {screens.md ? (
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-end',
-                    width: 'fit-content',
-                }}>
-
-                <Menu
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-end',
+                        width: 'fit-content',
+                    }}
+                >
+                    <Menu
                         mode="horizontal"
                         theme="light"
                         style={{
@@ -112,7 +127,7 @@ function HeaderNav() {
                         selectedKeys={[current]}
                         items={menuItems}
                     />
-                    <div style={{ paddingRight:"2%", width: '100%' }}>
+                    <div style={{ paddingRight: '2%', width: '100%' }}>
                         <Search
                             placeholder="Пошук..."
                             allowClear

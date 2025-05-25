@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import { Grid } from 'antd';
 import ProfileSidebar from '../components/ProfileSidebar';
 import UpdateProfileForm from "../components/settings/UpdateProfileForm.jsx";
-import AvatarUploader from "../components/settings/AvatarUploader.jsx"
-import ResetPassword from '../components/settings/ResetPassword.jsx'
-import {Divider} from "antd";
+import AvatarUploader from "../components/settings/AvatarUploader.jsx";
+import ResetPassword from '../components/settings/ResetPassword.jsx';
 import ChangeEmail from "../components/settings/ChangeEmail.jsx";
 import ProfileComments from "../components/settings/ProfileComments.jsx";
-import AdminPanel from "../components/admin/AdminPanel.jsx"
+import AdminPanel from "../components/admin/AdminPanel.jsx";
+import { Divider } from 'antd';
+import {useState} from "react";
+
+const { useBreakpoint } = Grid;
+
 export default function ProfilePage() {
+    const screens = useBreakpoint();
+    const isMobile = !screens.md;
+
     const [activeTab, setActiveTab] = useState('settings');
 
     const renderContent = () => {
@@ -16,42 +23,46 @@ export default function ProfilePage() {
                 return (
                     <>
                         <h2>Налаштування аватару</h2>
-                        <AvatarUploader/>
-                        <Divider/>
+                        <AvatarUploader />
+                        <Divider />
                         <h2>Зміна паролю</h2>
-                        <ResetPassword/>
-                        <Divider/>
+                        <ResetPassword />
+                        <Divider />
                         <h2>Зміна електоронної пошти</h2>
-                        <ChangeEmail/>
-                        <Divider/>
+                        <ChangeEmail />
+                        <Divider />
                         <h2>Налаштування профілю</h2>
-                        <UpdateProfileForm/>
-
+                        <UpdateProfileForm />
                     </>
                 );
-            case 'auctions':
-                return <h2>Aукціони</h2>;
             case 'comments':
-                return <>
-                <ProfileComments/>
-                </>;
+                return <ProfileComments />;
             case 'admin':
-                return(
-                <>
-                    <h2>Адмін-панель</h2>
-                    <AdminPanel/>
-                </>);
+                return (
+                    <>
+                        <h2>Адмін-панель</h2>
+                        <AdminPanel />
+                    </>
+                );
             default:
                 return null;
         }
     };
 
     return (
-        <div style={{ display: 'flex', maxWidth: 1200, margin: '2rem auto', gap: 40 }}>
-            <ProfileSidebar selectedKey={activeTab} onSelect={setActiveTab} />
-            <div style={{ flex: 1 }}>
-                {renderContent()}
-            </div>
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
+                maxWidth: 1200,
+                width: '100%',
+                margin: '2rem auto',
+                padding: '0 1rem',
+                gap: 40,
+            }}
+        >
+            <ProfileSidebar selectedKey={activeTab} onSelect={setActiveTab} isMobile={isMobile} />
+            <div style={{ flex: 1, minWidth: 0 }}>{renderContent()}</div>
         </div>
     );
 }

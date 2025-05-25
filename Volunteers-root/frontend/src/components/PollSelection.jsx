@@ -1,16 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useSession } from '../context/SessionProvider.jsx';
-import { Card, Radio, Button, Typography, Space, message } from 'antd';
+import { Card, Button, Typography, Space, message } from 'antd';
 import API from '../api/axios';
+import LoginModal from "./modals/LoginModal.jsx";
+import RegisterModal from "./modals/RegisterModal.jsx";
 
 const { Title, Text } = Typography;
 
-export default function PollSection({ entityType, entityId }) {
+export default function PollSection({ entityType, entityId, onLoginClick }) {
     const [poll, setPoll] = useState(null);
+    const [loginOpen, setLoginOpen] = useState(false);
+    const [registerOpen, setRegisterOpen] = useState(false);
     const [selected, setSelected] = useState(null);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const { session } = useSession();
+
     const fetchPoll = async () => {
         setLoading(true);
         try {
@@ -31,7 +36,7 @@ export default function PollSection({ entityType, entityId }) {
         try {
             await API.post('/poll/vote', {
                 pollId: poll.id,
-                optionId: selected
+                optionId: selected,
             });
             message.success('Ваш голос зараховано');
             fetchPoll();
@@ -48,43 +53,88 @@ export default function PollSection({ entityType, entityId }) {
 
     if (loading || !poll) return null;
 
-    return (
-        <Card style={{ marginTop: 32 }}>
-            <Title level={5}>{poll.question}</Title>
+    const totalVotes = poll.options.reduce((sum, o) => sum + o.votes, 0);
+    const isVoted = poll.userVote !== null;
+    const canVote = session?.authenticated && !isVoted;
 
-            {poll.userVote ? (
-                <Space direction="vertical">
-                    {poll.options.map(opt => (
-                        <Text key={opt.id}>
-                            • {opt.text} — <strong>{opt.votes}</strong> голосів
-                        </Text>
-                    ))}
-                </Space>
-            ) : (
-                <>
-                    <Radio.Group
-                        onChange={e => setSelected(e.target.value)}
-                        value={selected}
-                        style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
-                    >
-                        {poll.options.map(opt => (
-                            <Radio key={opt.id} value={opt.id}>
-                                {opt.text}
-                            </Radio>
-                        ))}
-                    </Radio.Group>
-                    {session?.authenticated && (
-                        <Button
-                            type="link"
-                            size="small"
-                            onClick={() => handleVote(option.id)}
-                            disabled={poll.userVote !== null}
+    return (
+        <div style={{ margin: 0, padding: 10, background: '#0F3E9833' }}>
+            <Title level={4} style={{ color: 'black' }}>{poll.question}</Title>
+
+            <Space direction="vertical" style={{ width: '100%' }} size={6}>
+                {poll.options.map(opt => {
+                    const percent = totalVotes ? (opt.votes / totalVotes) * 100 : 0;
+                    const isSelected = selected === opt.id;
+
+                    return (
+                        <div
+                            key={opt.id}
+                            onClick={() => canVote && setSelected(opt.id)}
+                            style={{
+                                cursor: canVote ? 'pointer' : 'default',
+                                border: `1px solid ${isSelected ? '#0F3E98' : '#d9d9d9'}`,
+                                borderRadius: 6,
+                                padding: "0px 10px 0px 10px",
+                                transition: 'all 0.2s',
+                                background: isSelected ? '#E6EDF9' : '#fff',
+                            }}
                         >
-                            Голосувати
-                        </Button>
-                    )}
-                </>
+                            <div style={{ fontWeight: 500, marginBottom: 4 }}>{opt.text}</div>
+                            <div style={{
+                                height: 8,
+                                background: '#E6EDF9',
+                                borderRadius: 4,
+                                overflow: 'hidden',
+                            }}>
+                                <div
+                                    style={{
+                                        height: '100%',
+                                        width: `${percent}%`,
+                                        background: '#0F3E98',
+                                        transition: 'width 0.4s ease',
+                                    }}
+                                />
+                            </div>
+                            <Text type="secondary" style={{ fontSize: 12 }}>
+                                {opt.votes} голосів ({percent.toFixed(1)}%)
+                            </Text>
+                        </div>
+                    );
+                })}
+            </Space>
+
+            {session?.authenticated ? (
+                !isVoted && (
+                    <Button
+                        type="primary"
+                        onClick={handleVote}
+                        loading={submitting}
+                        disabled={!selected}
+                        style={{ marginTop: 16, background: '#0F3E98', borderColor: '#0F3E98' }}
+                    >
+                        Голосувати
+                    </Button>
+                )
+            ) : (
+                <div>
+                    <Button
+                        type="link"
+                        onClick={() => setLoginOpen(true)}
+                    >
+                        Увійдіть, щоб проголосувати
+                    </Button>
+
+                    <LoginModal
+                        open={loginOpen}
+                        onClose={() => setLoginOpen(false)}
+                        onOpenRegister={() => {
+                            setLoginOpen(false);
+                            setRegisterOpen(true);
+                        }}
+                    />
+                    <RegisterModal open={registerOpen} onClose={() => setRegisterOpen(false)} />
+                </div>
             )}
-        </Card>
+        </div>
     );
 }

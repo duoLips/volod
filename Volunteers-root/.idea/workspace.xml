@@ -5,27 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92fcb0bd-570f-48d8-96e2-96419e03e583" name="Changes" comment="fixed acc restore">
-      <change afterPath="$PROJECT_DIR$/backend/controllers/admin.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/controllers/poll.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/admin.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/poll.routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/admin.service.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/poll.service.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ContactForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/PollSelection.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/AdminPanel.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/todo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/JarWidget.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3f9ab253-8d59-4274-8ca3-5882b0f499d4.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/comment.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/comment.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/comments.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/comments.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/user.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ArticleForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ArticleForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/auction.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/auction.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/for dummies.txt" beforeDir="false" afterPath="$PROJECT_DIR$/for dummies.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AuctionsList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AuctionsList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/CommentsSection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CommentsSection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/HeaderNav.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HeaderNav.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/PollSelection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/PollSelection.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/ProfileSidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ProfileSidebar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/DetailPages/AuctionDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DetailPages/AuctionDetailPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/DetailPages/NewsDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DetailPages/NewsDetailPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/DetailPages/ReportDetailPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DetailPages/ReportDetailPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/HomePage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/ProfilePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ProfilePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,29 +62,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.HeaderNav.jsx.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master-mac",
-    "last_opened_file_path": "/Users/margosheremet/Desktop/volod/Volunteers-root/frontend/src/pages",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Applications/PhpStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.HeaderNav.jsx.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master-mac&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/margo/Desktop/ONTU diplom/Volunteers-root&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/PhpStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontend/src/pages" />
@@ -124,6 +117,8 @@
       <workItem from="1744816942772" duration="1569000" />
       <workItem from="1744823500159" duration="18353000" />
       <workItem from="1745449065276" duration="139614000" />
+      <workItem from="1747958341024" duration="10538000" />
+      <workItem from="1748213911130" duration="545000" />
     </task>
     <task id="LOCAL-00001" summary="mac statr">
       <option name="closed" value="true" />

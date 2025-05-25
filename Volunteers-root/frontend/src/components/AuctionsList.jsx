@@ -177,11 +177,8 @@ function AuctionsList({ type = 'preview' }) {
                                                     {auction.title}
                                                 </div>
                                                 <div style={{ fontSize: 14, color: '#444' }}>
-                                                    🎁 {auction.prize}
+                                                    {auction.body?.length > 39 ? auction.body.slice(0, 39) + '...' : auction.body}
                                                 </div>
-                                                <Tag color={auction.status ? 'green' : 'red'}>
-                                                    {auction.status ? 'Відкритий' : 'Завершений'}
-                                                </Tag>
                                             </div>
                                         </div>
                                     )}

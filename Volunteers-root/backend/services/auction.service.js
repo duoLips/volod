@@ -64,17 +64,16 @@ async function getAllAuctions({ limit = 10, page = 1, search = '', status = 'all
 
 async function getAuctionId(id) {
     const { rows } = await db.query(
-        `SELECT a.*, m.img_path, m.alt_text, j.title AS jar_title,
-                u.username, u.first_name, u.last_name
+        `SELECT a.*, m.img_path, m.alt_text, j.title AS jar_title, j.send_id
          FROM auctions a
          LEFT JOIN media m ON m.entity_id = a.id AND m.entity_type = 'auction' AND m.type = 'cover'
          LEFT JOIN jars j ON j.id = a.jar_id
-         LEFT JOIN users u ON u.id = a.user_id
          WHERE a.id = $1 AND a.deleted_at IS NULL`,
         [id]
     );
     return rows[0] || null;
 }
+
 
 async function deleteAuction(id) {
     await db.query(`UPDATE auctions SET deleted_at = NOW() WHERE id = $1`, [id]);
